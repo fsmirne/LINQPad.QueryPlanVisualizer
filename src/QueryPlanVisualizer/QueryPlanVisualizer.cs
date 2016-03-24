@@ -27,8 +27,7 @@ namespace ExecutionPlanVisualizer
         {
             if (Util.CurrentDataContext != null && !(Util.CurrentDataContext.Connection is SqlConnection))
             {
-                var control = new Label { Text = "Query Plan Visualizer supports only Sql Server" };
-                PanelManager.DisplayControl(control, ExecutionPlanPanelTitle);
+                ShowError("Query Plan Visualizer supports only Sql Server");
                 return;
             }
 
@@ -42,6 +41,12 @@ namespace ExecutionPlanVisualizer
             try
             {
                 var planXml = databaseHelper.GetSqlServerQueryExecutionPlan(queryable);
+
+                if (string.IsNullOrEmpty(planXml))
+                {
+                    ShowError("Cannot retrieve query plan");
+                    return;   
+                }
 
                 var queryPlanProcessor = new QueryPlanProcessor(planXml);
 
@@ -78,9 +83,14 @@ namespace ExecutionPlanVisualizer
             }
             catch (Exception exception)
             {
-                var control = new Label { Text = exception.ToString() };
-                PanelManager.DisplayControl(control, ExecutionPlanPanelTitle);
+                ShowError(exception.ToString());
             }
+        }
+
+        private static void ShowError(string text)
+        {
+            var control = new Label {Text = text};
+            PanelManager.DisplayControl(control, ExecutionPlanPanelTitle);
         }
 
         private static List<string> ExtractFiles()
