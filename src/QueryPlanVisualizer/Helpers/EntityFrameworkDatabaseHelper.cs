@@ -1,10 +1,41 @@
 using System;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure.Interception;
+using System.Data.EntityClient;
+using System.Data.Objects;
 using System.Linq;
 
 namespace ExecutionPlanVisualizer.Helpers
 {
+    class EntityFramework5DatabaseHelper : DatabaseHelper
+    {
+        private ObjectParameterCollection parameters;
+
+        public EntityFramework5DatabaseHelper(ObjectQuery objectQuery)
+        {
+            Connection = (objectQuery.Context.Connection as EntityConnection)?.StoreConnection;
+            parameters = objectQuery.Parameters;
+        }
+
+        protected override DbCommand CreateCommand(IQueryable queryable)
+        {
+            var command = Connection.CreateCommand();
+            command.CommandText = queryable.ToString();
+
+            var copiedParameters = parameters.Select(parameter =>
+                                              {
+                                                  var parameterCopy = command.CreateParameter();
+                                                  parameterCopy.ParameterName = parameter.Name;
+                                                  parameterCopy.Value = parameter.Value;
+                                                  return parameterCopy;
+                                              }).ToArray();
+
+            command.Parameters.AddRange(copiedParameters);
+
+            return command;
+        }
+    }
+
     internal class EntityFrameworkDatabaseHelper : DatabaseHelper
     {
         protected override DbCommand CreateCommand(IQueryable queryable)
@@ -46,7 +77,6 @@ namespace ExecutionPlanVisualizer.Helpers
                                               }).ToArray();
 
             command.Parameters.AddRange(copiedParameters);
-
 
             return command;
         }
