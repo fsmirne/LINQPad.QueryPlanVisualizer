@@ -1,4 +1,5 @@
 using System;
+using System.Data;
 using System.Data.Common;
 using System.Data.Entity.Infrastructure;
 using System.Data.Linq;
@@ -56,7 +57,7 @@ namespace ExecutionPlanVisualizer.Helpers
                         System.Data.Objects.ObjectQuery<T>;
 
                 if (objectQuery != null)
-                    //EF5 uses ObjectQuery from System.Data.Objects namespace, EF6 uses System.Data.Entity.Core.Objects so it will be null
+                //EF5 uses ObjectQuery from System.Data.Objects namespace, EF6 uses System.Data.Entity.Core.Objects so it will be null
                 {
                     return new EntityFramework5DatabaseHelper(objectQuery);
                 }
@@ -84,7 +85,10 @@ namespace ExecutionPlanVisualizer.Helpers
             {
                 try
                 {
-                    Connection.Open();
+                    if (Connection.State != ConnectionState.Open)
+                    {
+                        Connection.Open();
+                    }
 
                     using (var setStatisticsCommand = Connection.CreateCommand())
                     {
