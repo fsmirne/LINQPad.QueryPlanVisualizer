@@ -40,15 +40,23 @@ namespace ExecutionPlanVisualizer.Helpers
                 }
             }
 
+            return CreateEntityFrameworkDatabaseHelper(queryable);
+        }
+
+        private static DatabaseHelper CreateEntityFrameworkDatabaseHelper<T>(IQueryable<T> queryable)
+        {
             var query = queryable as DbQuery<T>;
             if (query != null)
             {
                 var bindingFlags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.GetProperty;
 
                 var internalQuery = query.GetType().GetProperty("InternalQuery", bindingFlags)?.GetValue(query);
-                var objectQuery = internalQuery?.GetType().GetProperty("ObjectQuery")?.GetValue(internalQuery) as System.Data.Objects.ObjectQuery<T>;
+                var objectQuery =
+                    internalQuery?.GetType().GetProperty("ObjectQuery")?.GetValue(internalQuery) as
+                        System.Data.Objects.ObjectQuery<T>;
 
-                if (objectQuery != null) //EF5 uses ObjectQuery from System.Data.Objects namespace, EF6 uses System.Data.Entity.Core.Objects so it will be null
+                if (objectQuery != null)
+                    //EF5 uses ObjectQuery from System.Data.Objects namespace, EF6 uses System.Data.Entity.Core.Objects so it will be null
                 {
                     return new EntityFramework5DatabaseHelper(objectQuery);
                 }
