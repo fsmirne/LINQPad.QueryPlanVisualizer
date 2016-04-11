@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>LINQPadQueryPlanVisualizer</id>
-        <version>1.0.1</version>
+        <version>1.1.1</version>
         <title>LINQPad Query Plan Visualizer</title>
         <authors>Giorgi</authors>
         <licenseUrl>https://github.com/Giorgi/LINQPad.QueryPlanVisualizer/blob/master/License.md</licenseUrl>
@@ -18,7 +18,11 @@ Features Include:
     Open plan in SQL Server Management Studio or other default app
     Save plan to xml file</description>
         <summary>SQL Server query execution plan visualizer for LINQPad</summary>
-        <releaseNotes>Initial Release</releaseNotes>
+        <releaseNotes>Added support for typed LINQ Datacontext, Entity Framework 5 and Entity Framework 6 contexts.
+
+Show separate execution plan for each query.
+
+Fixed minor bugs.</releaseNotes>
         <tags>LINQPad SQL SQLServer</tags>
     </metadata>
     <files>
