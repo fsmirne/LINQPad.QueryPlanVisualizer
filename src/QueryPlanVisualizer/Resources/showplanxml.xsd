@@ -481,6 +481,7 @@
     <xsd:attribute name="GrantWaitTime" type="xsd:unsignedLong" use="optional" />
     <xsd:attribute name="GrantedMemory" type="xsd:unsignedLong" use="optional" />
     <xsd:attribute name="MaxUsedMemory" type="xsd:unsignedLong" use="optional" />
+    <xsd:attribute name="MaxQueryMemory" type="xsd:unsignedLong" use="optional" />
   </xsd:complexType>
   <xsd:complexType name="OptimizerHardwareDependentPropertiesType">
     <xsd:annotation>
@@ -495,6 +496,7 @@
     <xsd:attribute name="EstimatedAvailableMemoryGrant" type="xsd:unsignedLong" use="required" />
     <xsd:attribute name="EstimatedPagesCached" type="xsd:unsignedLong" use="required" />
     <xsd:attribute name="EstimatedAvailableDegreeOfParallelism" type="xsd:unsignedLong" use="optional" />
+    <xsd:attribute name="MaxCompileMemory" type="xsd:unsignedLong" use="optional" />
   </xsd:complexType>
   <xsd:complexType name="RunTimeInformationType">
     <xsd:annotation>
