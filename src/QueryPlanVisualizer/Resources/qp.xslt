@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:msxsl="urn:schemas-microsoft-com:xslt"
+  xmlns:exslt="http://exslt.org/common"
   xmlns:s="http://schemas.microsoft.com/sqlserver/2004/07/showplan"
   exclude-result-prefixes="msxsl s xsl">
   <xsl:output method="html" indent="no" omit-xml-declaration="yes" />
 
   <!-- Disable built-in recursive processing templates -->
-  <xsl:template match="*|/|text()|@*" mode="NodeLabel" />
+  <xsl:template match="*|/|text()|@*" mode="NodeLabel2" />
   <xsl:template match="*|/|text()|@*" mode="ToolTipDescription" />
   <xsl:template match="*|/|text()|@*" mode="ToolTipDetails" />
 
@@ -22,33 +23,17 @@
     </div>
   </xsl:template>
   
-  <!-- Matches a statement. -->
-  <xsl:template match="s:StmtSimple">
+  <!-- Matches a branch in the query plan (either an operation or a statement) -->
+  <xsl:template match="s:RelOp|s:StmtSimple">
     <div class="qp-tr">
+      <xsl:if test="@StatementId">
+        <xsl:attribute name="data-statement-id"><xsl:value-of select="@StatementId" /></xsl:attribute>
+      </xsl:if>
       <div>
         <div class="qp-node">
-          <xsl:element name="div">
-            <xsl:attribute name="class">qp-icon-Statement</xsl:attribute>
-          </xsl:element>
-          <div><xsl:value-of select="@StatementType" /></div>
+          <xsl:apply-templates select="." mode="NodeIcon" />
           <xsl:apply-templates select="." mode="NodeLabel" />
-          <xsl:call-template name="ToolTip" />
-        </div>
-      </div>
-      <div><xsl:apply-templates select="*/s:RelOp" /></div>
-    </div>
-  </xsl:template>
-  
-  <!-- Matches a branch in the query plan. -->
-  <xsl:template match="s:RelOp">
-    <div class="qp-tr">
-      <div>
-        <div class="qp-node">
-          <xsl:element name="div">
-            <xsl:attribute name="class">qp-icon-<xsl:value-of select="translate(@PhysicalOp, ' ', '')" /></xsl:attribute>
-          </xsl:element>
-          <div><xsl:value-of select="@PhysicalOp" /></div>
-          <xsl:apply-templates select="." mode="NodeLabel" />
+          <xsl:apply-templates select="." mode="NodeLabel2" />
           <xsl:apply-templates select="." mode="NodeCostLabel" />
           <xsl:call-template name="ToolTip" />
         </div>
@@ -131,9 +116,7 @@
           
           <xsl:call-template name="round">
             <xsl:with-param name="value" select="$EstimatedOperatorCost" />
-          </xsl:call-template>
-          (<xsl:value-of select="format-number(number($EstimatedOperatorCost) div number($TotalCost), '0%')" />)
-        </xsl:with-param>
+          </xsl:call-template> (<xsl:value-of select="format-number(number($EstimatedOperatorCost) div number($TotalCost), '0%')" />)</xsl:with-param>
       </xsl:call-template>
       <xsl:call-template name="ToolTipRow">
         <xsl:with-param name="Condition" select="@StatementSubTreeCost | @EstimatedTotalSubtreeCost" />
@@ -174,17 +157,36 @@
 
   <!-- Calculates the estimated operator cost. -->
   <xsl:template name="EstimatedOperatorCost">
-    <xsl:variable name="EstimateIO">
+    <xsl:variable name="EstimatedTotalSubtreeCost">
       <xsl:call-template name="convertSciToNumString">
-        <xsl:with-param name="inputVal" select="@EstimateIO" />
+        <xsl:with-param name="inputVal" select="@EstimatedTotalSubtreeCost" />
       </xsl:call-template>
     </xsl:variable>
-    <xsl:variable name="EstimateCPU">
-      <xsl:call-template name="convertSciToNumString">
-        <xsl:with-param name="inputVal" select="@EstimateCPU" />
-      </xsl:call-template>
+    <xsl:variable name="ChildEstimatedSubtreeCost">
+      <xsl:for-each select="*/s:RelOp">
+        <value>
+          <xsl:call-template name="convertSciToNumString">
+            <xsl:with-param name="inputVal" select="@EstimatedTotalSubtreeCost" />
+          </xsl:call-template>
+        </value>
+      </xsl:for-each>
     </xsl:variable>
-    <xsl:value-of select="number($EstimateIO) + number($EstimateCPU)" />
+    <xsl:variable name="TotalChildEstimatedSubtreeCost">
+      <xsl:choose>
+        <xsl:when test="function-available('exslt:node-set')">
+          <xsl:value-of select='sum(exslt:node-set($ChildEstimatedSubtreeCost)/value)' />
+        </xsl:when>
+        <xsl:when test="function-available('msxsl:node-set')">
+          <xsl:value-of select='sum(msxsl:node-set($ChildEstimatedSubtreeCost)/value)' />
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+    <xsl:choose>
+      <xsl:when test="number($EstimatedTotalSubtreeCost) - number($TotalChildEstimatedSubtreeCost) &lt; 0">0</xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="number($EstimatedTotalSubtreeCost) - number($TotalChildEstimatedSubtreeCost)" />
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <!-- Renders a row in the tool tip details table. -->
@@ -196,18 +198,39 @@
       <tr>
         <th><xsl:value-of select="$Label" /></th>
         <td><xsl:value-of select="$Value" /></td>
-      </tr>      
+      </tr>
     </xsl:if>
   </xsl:template>
 
   <!-- Prints the name of an object. -->
   <xsl:template match="s:Object | s:ColumnReference" mode="ObjectName">
-    <xsl:for-each select="@Database | @Schema | @Table | @Index | @Column | @Alias">
-      <xsl:value-of select="." />
-      <xsl:if test="position() != last()">.</xsl:if>
-    </xsl:for-each>
+    <xsl:param name="ExcludeDatabaseName" select="false()" />
+    <xsl:choose>
+      <xsl:when test="$ExcludeDatabaseName">
+        <xsl:for-each select="@Table | @Index | @Column | @Alias">
+          <xsl:value-of select="." />
+          <xsl:if test="position() != last()">.</xsl:if>
+        </xsl:for-each>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:for-each select="@Database | @Schema | @Table | @Index | @Column | @Alias">
+          <xsl:value-of select="." />
+          <xsl:if test="position() != last()">.</xsl:if>
+        </xsl:for-each>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
-  
+
+  <!-- Displays the node cost label. -->
+  <xsl:template match="s:RelOp" mode="NodeCostLabel">
+    <xsl:variable name="EstimatedOperatorCost"><xsl:call-template name="EstimatedOperatorCost" /></xsl:variable>
+    <xsl:variable name="TotalCost"><xsl:value-of select="ancestor::s:StmtSimple/@StatementSubTreeCost" /></xsl:variable>
+    <div>Cost: <xsl:value-of select="format-number(number($EstimatedOperatorCost) div number($TotalCost), '0%')" /></div>
+  </xsl:template>
+
+  <!-- Dont show the node cost for statements. -->
+  <xsl:template match="s:StmtSimple" mode="NodeCostLabel" />
+
   <!-- 
   ================================
   Tool tip detail sections
@@ -261,44 +284,79 @@
 
   <!-- TODO: Seek Predicates -->
 
-  <!--
+  <!-- 
   ================================
-  Operator specific node labels
+  Node icons
   ================================
-  The following section contains templates used for writing operator-type specific node labels.
+  The following templates determine what icon should be shown for a given node
   -->
 
-  <xsl:template match="s:RelOp" mode="NodeCostLabel">
-    <xsl:variable name="EstimatedOperatorCost">
-      <xsl:call-template name="EstimatedOperatorCost" />
-    </xsl:variable>
-    <xsl:variable name="TotalCost">
-      <xsl:value-of select="ancestor::s:StmtSimple/@StatementSubTreeCost" />
-    </xsl:variable>
-    <div>Cost: <xsl:value-of select="format-number(number($EstimatedOperatorCost) div number($TotalCost), '0%')" /></div>
+  <!-- Use the logical operation to determine the icon for the "Parallelism" operators. -->
+  <xsl:template match="s:RelOp[@PhysicalOp = 'Parallelism']" mode="NodeIcon" priority="1">
+    <xsl:element name="div">
+      <xsl:attribute name="class">qp-icon-<xsl:value-of select="translate(@LogicalOp, ' ', '')" /></xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
+  <!-- Use the physical operation to determine icon if it is present. -->
+  <xsl:template match="*[@PhysicalOp]" mode="NodeIcon">
+    <xsl:element name="div">
+      <xsl:attribute name="class">qp-icon-<xsl:value-of select="translate(@PhysicalOp, ' ', '')" /></xsl:attribute>
+    </xsl:element>
   </xsl:template>
   
-  <!-- Node label for "Nested Loops" operation -->
-  <xsl:template match="*[s:NestedLoops]" mode="NodeLabel">
+  <!-- Matches all statements. -->
+  <xsl:template match="s:StmtSimple" mode="NodeIcon">
+    <div class="qp-icon-Statement"></div>
+  </xsl:template>
+
+  <!-- Fallback template - show the Bitmap icon. -->
+  <xsl:template match="*" mode="NodeIcon">
+    <div class="qp-icon-Catchall"></div>
+  </xsl:template>
+
+  <!-- 
+  ================================
+  Node labels
+  ================================
+  The following section contains templates used to determine the first (main) label for a node.
+  -->
+
+  <xsl:template match="s:RelOp" mode="NodeLabel">
+    <div><xsl:value-of select="@PhysicalOp" /></div>
+  </xsl:template>
+
+  <xsl:template match="s:StmtSimple" mode="NodeLabel">
+    <div><xsl:value-of select="@StatementType" /></div>
+  </xsl:template>
+
+  <!--
+  ================================
+  Node alternate labels
+  ================================
+  The following section contains templates used to determine the second label to be displayed for a node.
+  -->
+
+  <!-- Display the object for any node that has one -->
+  <xsl:template match="*[*/s:Object]" mode="NodeLabel2">
+    <xsl:variable name="ObjectName">
+      <xsl:apply-templates select="*/s:Object" mode="ObjectName">
+        <xsl:with-param name="ExcludeDatabaseName" select="true()" />
+      </xsl:apply-templates>
+    </xsl:variable>
+    <div>
+      <xsl:value-of select="substring($ObjectName, 0, 36)" />
+      <xsl:if test="string-length($ObjectName) >= 36">…</xsl:if>
+    </div>
+  </xsl:template>
+
+  <!-- Display the logical operation for any node where it is not the same as the physical operation. -->
+  <xsl:template match="s:RelOp[@LogicalOp != @PhysicalOp]" mode="NodeLabel2">
     <div>(<xsl:value-of select="@LogicalOp" />)</div>
   </xsl:template>
 
-  <!-- Node label for "Index Scan" operation -->
-  <xsl:template match="*[s:IndexScan]" mode="NodeLabel">
-    <xsl:variable name="IndexName" select="concat(s:IndexScan/s:Object/@Table, '.', s:IndexScan/s:Object/@Index)" />
-    <div>
-      <xsl:value-of select="substring($IndexName, 0, 36)" />
-      <xsl:if test="string-length($IndexName) >= 36">…</xsl:if>
-    </div>
-  </xsl:template>
-
-  <xsl:template match="*[s:TableScan]" mode="NodeLabel">
-    <xsl:variable name="IndexName" select="concat(s:TableScan/s:Object/@Schema, '.', s:TableScan/s:Object/@Table)" />
-    <div>
-      <xsl:value-of select="substring($IndexName, 0, 36)" />
-      <xsl:if test="string-length($IndexName) >= 36">…</xsl:if>
-    </div>
-  </xsl:template>
+  <!-- Disable the default template -->
+  <xsl:template match="*" mode="NodeLabel2" />
 
   <!-- 
   ================================
@@ -311,6 +369,15 @@
   <xsl:template match="*[@PhysicalOp = 'Compute Scalar']" mode="ToolTipDescription">Compute new values from existing values in a row.</xsl:template>
   <xsl:template match="*[@PhysicalOp = 'Sort']" mode="ToolTipDescription">Sort the input.</xsl:template>
   <xsl:template match="*[@PhysicalOp = 'Clustered Index Scan']" mode="ToolTipDescription">Scanning a clustered index, entirely or only a range.</xsl:template>
+  <xsl:template match="*[@PhysicalOp = 'Stream Aggregate']" mode="ToolTipDescription">Compute summary values for groups of rows in a suitably sorted stream.</xsl:template>
+  <xsl:template match="*[@PhysicalOp = 'Hash Match']" mode="ToolTipDescription">Use each row from the top input to build a hash table, and each row from the bottom input to probe into the hash table, outputting all matching rows.</xsl:template>
+  <xsl:template match="*[@PhysicalOp = 'Bitmap']" mode="ToolTipDescription">Bitmap.</xsl:template>
+  <xsl:template match="*[@PhysicalOp = 'Clustered Index Seek']" mode="ToolTipDescription">Scanning a particular range of rows from a clustered index.</xsl:template>
+  <xsl:template match="*[@PhysicalOp = 'Index Seek']" mode="ToolTipDescription">Scan a particular range of rows from a nonclustered index.</xsl:template>
+
+  <xsl:template match="*[@PhysicalOp = 'Parallelism' and @LogicalOp='Repartition Streams']" mode="ToolTipDescription">Repartition Streams.</xsl:template>
+  <xsl:template match="*[@PhysicalOp = 'Parallelism']" mode="ToolTipDescription">An operation involving parallelism.</xsl:template>
+  
   <xsl:template match="*[s:TableScan]" mode="ToolTipDescription">Scan rows from a table.</xsl:template>
   <xsl:template match="*[s:NestedLoops]" mode="ToolTipDescription">For each row in the top (outer) input, scan the bottom (inner) input, and output matching rows.</xsl:template>
   <xsl:template match="*[s:Top]" mode="ToolTipDescription">Select the first few rows based on a sort order.</xsl:template>
@@ -331,7 +398,7 @@
         <xsl:with-param name="inputVal" select="$value" />
       </xsl:call-template>
     </xsl:variable>
-    <xsl:value-of select="round(number($number) * 10000000) div 10000000" />
+    <xsl:value-of select="format-number(round(number($number) * 10000000) div 10000000, '0.#######')" />
   </xsl:template>
   
   <!-- Template for handling of scientific numbers
