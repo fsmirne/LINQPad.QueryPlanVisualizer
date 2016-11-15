@@ -27,12 +27,7 @@ namespace ExecutionPlanVisualizer
         {
             try
             {
-                var databaseHelper = new LinqToSqlDatabaseHelper(Util.CurrentDataContext);
-
-                var control = new QueryPlanUserControl()
-                {
-                    DatabaseHelper = databaseHelper
-                };
+                var control = new QueryPlanUserControl();
 
                 PanelManager.DisplayControl(control, ExecutionPlanPanelTitle);
 
@@ -67,7 +62,7 @@ namespace ExecutionPlanVisualizer
 
                 if (control == null || addNewPanel)
                 {
-                    control = new QueryPlanUserControl()
+                    control = new QueryPlanUserControl
                     {
                         DatabaseHelper = databaseHelper
                     };
