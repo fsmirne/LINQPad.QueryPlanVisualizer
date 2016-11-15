@@ -142,6 +142,8 @@ namespace ExecutionPlanVisualizer
 
             indexesTabPage.Text = $"{this.indexes.Count} Missing Index{(this.indexes.Count > 1 ? "es" : "")}";
 
+            indexesDataGridView.Columns[indexesDataGridView.ColumnCount - 1].Visible = DatabaseHelper != null;
+
             indexesDataGridView.DataSource = this.indexes;
             indexesDataGridView.ResetBindings();
         }
