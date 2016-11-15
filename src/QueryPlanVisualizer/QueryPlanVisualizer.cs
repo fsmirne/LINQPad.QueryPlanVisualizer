@@ -125,7 +125,6 @@ namespace ExecutionPlanVisualizer
         private static List<string> ExtractFiles()
         {
             var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LINQPadQueryVisualizer");
-            var imagesFolder = Path.Combine(folder, "images");
 
             if (!Directory.Exists(folder))
             {
@@ -133,35 +132,18 @@ namespace ExecutionPlanVisualizer
                 Directory.CreateDirectory(folder);
             }
 
-            if (!Directory.Exists(imagesFolder))
-            {
-                shouldExtract = true;
-                Directory.CreateDirectory(imagesFolder);
-            }
-
             var qpJavascript = Path.Combine(folder, "qp.js");
             var qpStyleSheet = Path.Combine(folder, "qp.css");
             var jquery = Path.Combine(folder, "jquery.js");
+            var icons = Path.Combine(folder, "qp_icons.png");
 
             if (shouldExtract)
             {
-                File.WriteAllText(qpJavascript, Resources.jquery);
+                Resources.qp_icons.Save(icons);
+
+                File.WriteAllText(qpJavascript, Resources.qpJavascript);
                 File.WriteAllText(qpStyleSheet, Resources.qpStyleSheet);
-                File.WriteAllText(jquery, Resources.qpJavascript);
-
-                var assembly = Assembly.GetExecutingAssembly();
-                var resourceNames = assembly.GetManifestResourceNames();
-
-                foreach (var name in resourceNames.Where(name => name.EndsWith(".gif")))
-                {
-                    using (var stream = assembly.GetManifestResourceStream(name))
-                    {
-                        using (var file = new FileStream(Path.Combine(imagesFolder, Path.GetFileNameWithoutExtension(name).Split('.').Last() + ".gif"), FileMode.Create, FileAccess.Write))
-                        {
-                            stream.CopyTo(file);
-                        }
-                    }
-                }
+                File.WriteAllText(jquery, Resources.jquery);
 
                 shouldExtract = false;
             }

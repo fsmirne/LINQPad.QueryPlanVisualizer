@@ -71,22 +71,32 @@ namespace ExecutionPlanVisualizer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to if (typeof (QP) == &quot;undefined&quot; || !QP) {
-        ///    var QP = {}
-        ///};
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap qp_icons {
+            get {
+                object obj = ResourceManager.GetObject("qp_icons", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (function webpackUniversalModuleDefinition(root, factory) {
+        ///	if(typeof exports === &apos;object&apos; &amp;&amp; typeof module === &apos;object&apos;)
+        ///		module.exports = factory();
+        ///	else if(typeof define === &apos;function&apos; &amp;&amp; define.amd)
+        ///		define([], factory);
+        ///	else if(typeof exports === &apos;object&apos;)
+        ///		exports[&quot;QP&quot;] = factory();
+        ///	else
+        ///		root[&quot;QP&quot;] = factory();
+        ///})(this, function() {
+        ///return /******/ (function(modules) { // webpackBootstrap
+        ////******/ 	// The module cache
+        ////******/ 	var installedModules = {};
         ///
-        ///(function() {
-        ///    /* Draws the lines linking nodes in query plan diagram.
-        ///    root - The document element in which the diagram is contained. */
-        ///    QP.drawLines = function(root) {
-        ///        if (root === null || root === undefined) {
-        ///            // Try and find it ourselves
-        ///            root = $(&quot;.qp-root&quot;).parent();
-        ///        } else {
-        ///            // Make sure the object passed is jQuery wrapped
-        ///            root = $(root);
-        ///        }
-        ///      [rest of string was truncated]&quot;;.
+        ////******/ 	// The require function
+        ////** [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string qpJavascript {
             get {
@@ -95,39 +105,34 @@ namespace ExecutionPlanVisualizer.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to div.qp-node
-        ///{
-        ///	background-color: #FFFFCC;
-        ///	margin: 2px;
-        ///	padding: 2px;
-        ///	border: 1px solid black;
-        ///	font-size: 11px;
-        ///	line-height: normal;
+        ///   Looks up a localized string similar to div.qp-node {
+        ///    background-color: #FFFFCC;
+        ///    margin: 2px;
+        ///    padding: 2px;
+        ///    border: 1px solid black;
+        ///    font-size: 11px;
+        ///    line-height: normal;
         ///}
-        ///.qp-node &gt; div
-        ///{
-        ///	font-family: Monospace;
-        ///	text-align: center;
+        ///
+        ///.qp-node&gt;div {
+        ///    font-family: Monospace;
+        ///    text-align: center;
         ///}
-        ///div[class|=&apos;qp-icon&apos;]
-        ///{
-        ///	height: 32px;
-        ///	width: 32px;
-        ///	margin-left: auto;
-        ///	margin-right: auto;
-        ///	background-repeat: no-repeat;
+        ///
+        ///div[class|=&apos;qp-icon&apos;] {
+        ///    height: 32px;
+        ///    width: 32px;
+        ///    margin-left: auto;
+        ///    margin-right: auto;
+        ///    background-repeat: no-repeat;
         ///}
-        ///.qp-tt
-        ///{
-        ///	top: 4em; 
-        ///	left: 2em;
-        ///	border: 1px solid black;
-        ///	background-color: #FFFFEE;
-        ///	padding: 2px;
-        ///}
-        ///.qp-tt div, .qp-tt table
-        ///{
-        ///	font-family: Sans [rest of string was truncated]&quot;;.
+        ///
+        ///.qp-tt {
+        ///    top: 4em;
+        ///    left: 2em;
+        ///    border: 1px solid black;
+        ///    background-color: #FFFFEE;
+        ///    padding: 2px [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string qpStyleSheet {
             get {
@@ -139,13 +144,14 @@ namespace ExecutionPlanVisualizer.Properties {
         ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
         ///&lt;xsl:stylesheet version=&quot;1.0&quot; xmlns:xsl=&quot;http://www.w3.org/1999/XSL/Transform&quot;
         ///  xmlns:msxsl=&quot;urn:schemas-microsoft-com:xslt&quot;
+        ///  xmlns:exslt=&quot;http://exslt.org/common&quot;
         ///  xmlns:s=&quot;http://schemas.microsoft.com/sqlserver/2004/07/showplan&quot;
         ///  exclude-result-prefixes=&quot;msxsl s xsl&quot;&gt;
         ///  &lt;xsl:output method=&quot;html&quot; indent=&quot;no&quot; omit-xml-declaration=&quot;yes&quot; /&gt;
         ///
         ///  &lt;!-- Disable built-in recursive processing templates --&gt;
-        ///  &lt;xsl:template match=&quot;*|/|text()|@*&quot; mode=&quot;NodeLabel&quot; /&gt;
-        ///  &lt;xsl:template match=&quot;*|/|text()|@*&quot; mod [rest of string was truncated]&quot;;.
+        ///  &lt;xsl:template match=&quot;*|/|text()|@*&quot; mode=&quot;NodeLabel2&quot; /&gt;
+        ///  &lt;xsl:te [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string qpXslt {
             get {

@@ -220,6 +220,13 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
+  
+  <xsl:template match="s:Object | s:ColumnReference" mode="ObjectNameNoAlias">
+    <xsl:for-each select="@Database | @Schema | @Table | @Index | @Column">
+      <xsl:value-of select="." />
+      <xsl:if test="position() != last()">.</xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <!-- Displays the node cost label. -->
   <xsl:template match="s:RelOp" mode="NodeCostLabel">
@@ -247,6 +254,16 @@
 
   <xsl:template match="s:SetPredicate[s:ScalarOperator/@ScalarString]" mode="ToolTipDetails">
     <div class="qp-bold">Predicate</div>
+    <div><xsl:value-of select="s:ScalarOperator/@ScalarString" /></div>
+  </xsl:template>
+
+  <xsl:template match="s:Predicate[s:ScalarOperator/@ScalarString]" mode="ToolTipDetails">
+    <div class="qp-bold">Predicate</div>
+    <div><xsl:value-of select="s:ScalarOperator/@ScalarString" /></div>
+  </xsl:template>
+
+  <xsl:template match="s:TopExpression[s:ScalarOperator/@ScalarString]" mode="ToolTipDetails">
+    <div class="qp-bold">Top Expression</div>
     <div><xsl:value-of select="s:ScalarOperator/@ScalarString" /></div>
   </xsl:template>
 
@@ -282,7 +299,45 @@
     </xsl:for-each>
   </xsl:template>
 
-  <!-- TODO: Seek Predicates -->
+  <!-- 
+  Seek Predicates Tooltip
+  -->
+
+  <xsl:template match="s:SeekPredicates" mode="ToolTipDetails">
+    <div class="qp-bold">Seek Predicates</div>
+    <div>
+      <xsl:for-each select="s:SeekPredicateNew/s:SeekKeys">
+        <xsl:call-template name="SeekKeyDetail">
+          <xsl:with-param name="position" select="position()" />
+        </xsl:call-template>
+        <xsl:if test="position() != last()">, </xsl:if>
+      </xsl:for-each>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="SeekKeyDetail">
+    <xsl:param name="position" />Seek Keys[<xsl:value-of select="$position" />]: <xsl:for-each select="s:Prefix|s:StartRange|s:EndRange">
+      <xsl:choose>
+        <xsl:when test="self::s:Prefix">Prefix: </xsl:when>
+        <xsl:when test="self::s:StartRange">Start: </xsl:when>
+        <xsl:when test="self::s:EndRange">End: </xsl:when>
+      </xsl:choose>
+      <xsl:for-each select="s:RangeColumns/s:ColumnReference">
+        <xsl:apply-templates select="." mode="ObjectNameNoAlias" />
+        <xsl:if test="position() != last()">, </xsl:if>
+      </xsl:for-each>
+      <xsl:choose>
+        <xsl:when test="@ScanType = 'EQ'"> = </xsl:when>
+        <xsl:when test="@ScanType = 'LT'"> &lt; </xsl:when>
+        <xsl:when test="@ScanType = 'GT'"> > </xsl:when>
+        <xsl:when test="@ScanType = 'LE'"> &lt;= </xsl:when>
+        <xsl:when test="@ScanType = 'GE'"> >= </xsl:when>
+      </xsl:choose>
+      <xsl:for-each select="s:RangeExpressions/s:ScalarOperator">Scalar Operator(<xsl:value-of select="@ScalarString" />)<xsl:if test="position() != last()">, </xsl:if>
+      </xsl:for-each>
+      <xsl:if test="position() != last()">, </xsl:if>
+    </xsl:for-each>
+  </xsl:template>
 
   <!-- 
   ================================
