@@ -1,4 +1,4 @@
-# QueryPlanVisualizer [![NuGet Version](https://buildstats.info/nuget/LINQPadQueryPlanVisualizer)](https://www.nuget.org/packages/LINQPadQueryPlanVisualizer/) [![Apache license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](https://github.com/Giorgi/QueryPlanVisualizer/blob/master/LICENSE.md)
+# LINQPad.QueryPlanVisualizer [![NuGet Version](https://buildstats.info/nuget/LINQPadQueryPlanVisualizer)](https://www.nuget.org/packages/LINQPadQueryPlanVisualizer/) [![Apache license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](https://github.com/Giorgi/QueryPlanVisualizer/blob/master/LICENSE.md)
 SQL Server query execution plan visualizer for LINQPad.
 
 ## Features
@@ -14,7 +14,7 @@ If you have Developer or higher edition of LINQPad you can use `LINQPadQueryPlan
 to add the visualizer to your queries.
 
 ### Install as plugin
-To install the visualizer as a LINQPad plugin download the [latest release](https://github.com/Giorgi/QueryPlanVisualizer/releases/latest) and drop the visualizer dll directly inside LINQPad's plugins folder (by defalt found at `My Documents\LINQPad Plugins`). The plugin will be automatically available in all queries.
+To install the visualizer as a LINQPad plugin download the [latest release](https://github.com/Giorgi/QueryPlanVisualizer/releases/latest) and drop the visualizer dll directly inside LINQPad's plugins folder (by default found at `My Documents\LINQPad Plugins`). The plugin will be automatically available in all queries.
 
 ## Viewing query plan
 To view query plan or missing indexes call static `QueryPlanVisualizer.DumpPlan(query)` method or call `DumpPlan` extension method on any `IQueryable` instance. You will also need to add `ExecutionPlanVisualizer` to namespaces list (click F4 to open the dialog). If you want to dump query result too just pass `true` as a second parameter.
