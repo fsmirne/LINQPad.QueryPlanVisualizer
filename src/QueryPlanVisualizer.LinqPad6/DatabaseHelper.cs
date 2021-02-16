@@ -10,16 +10,18 @@ namespace QueryPlanVisualizer.LinqPad6
 {
     internal abstract class DatabaseHelper
     {
-        public static DatabaseHelper Create<T>(IQueryable<T> queryable)
-        {
-            if (queryable is EntityQueryable<T>) // queryable is EntityQueryable<T> forces us to add where T : class to the method so we can't do that
-            {
-                return new EFCoreDatabaseHelper();
-            }
+        private readonly IPlanExtractor planExtractor;
 
-            if (queryable.GetType().GetGenericTypeDefinition() == typeof(InternalDbSet<object>).GetGenericTypeDefinition())
+        protected DatabaseHelper(IPlanExtractor planExtractor)
+        {
+            this.planExtractor = planExtractor;
+        }
+
+        public static DatabaseHelper Create<T>(IQueryable<T> queryable, string driver)
+        {
+            if (driver.Contains("EntityFrameworkCore"))
             {
-                return new EFCoreDatabaseHelper();
+                return new EFCoreDatabaseHelper(driver);
             }
 
             var queryType = queryable.GetType();
@@ -42,8 +44,13 @@ namespace QueryPlanVisualizer.LinqPad6
             return null;
         }
 
-        public virtual string GetSqlServerQueryExecutionPlan<T>(IQueryable<T> queryable)
+        public virtual string GetQueryPlan<T>(IQueryable<T> queryable)
         {
+            if (planExtractor == null)
+            {
+                return null;
+            }
+
             using var command = CreateCommand(queryable);
             try
             {
@@ -52,25 +59,7 @@ namespace QueryPlanVisualizer.LinqPad6
                     command.Connection.Open();
                 }
 
-                using (var setStatisticsCommand = command.Connection.CreateCommand())
-                {
-                    setStatisticsCommand.CommandText = "SET STATISTICS XML ON";
-                    setStatisticsCommand.ExecuteNonQuery();
-                }
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.NextResult())
-                    {
-                        if (reader.GetName(0) == "Microsoft SQL Server 2005 XML Showplan")
-                        {
-                            reader.Read();
-                            return reader.GetString(0);
-                        }
-                    }
-                }
-
-                return null;
+                return planExtractor.ExtractPlan(command);
             }
             finally
             {
@@ -81,11 +70,36 @@ namespace QueryPlanVisualizer.LinqPad6
         protected abstract DbCommand CreateCommand(IQueryable queryable);
     }
 
+    class EFCoreDatabaseHelper : DatabaseHelper
+    {
+        public EFCoreDatabaseHelper(string provider) : base(GetPlanExtractor(provider))
+        {
+        }
+
+        private static IPlanExtractor GetPlanExtractor(string provider)
+        {
+            switch (provider)
+            {
+                case "Microsoft.EntityFrameworkCore.SqlServer":
+                    return new SqlServerPlanExtractor();
+                case "Npgsql.EntityFrameworkCore.PostgreSQL":
+                    return new PostgresPlanExtractor();
+                default:
+                    return null;
+            }
+        }
+
+        protected override DbCommand CreateCommand(IQueryable queryable)
+        {
+            return queryable.CreateDbCommand();
+        }
+    }
+
     class LinqToSqlDatabaseHelper : DatabaseHelper
     {
         private readonly object dataContext;
 
-        public LinqToSqlDatabaseHelper(object dataContext)
+        public LinqToSqlDatabaseHelper(object dataContext) : base(new SqlServerPlanExtractor())
         {
             this.dataContext = dataContext;
         }
@@ -94,14 +108,6 @@ namespace QueryPlanVisualizer.LinqPad6
         {
             var getCommand = dataContext.GetType().GetMethod("GetCommand", BindingFlags.Public | BindingFlags.Instance);
             return getCommand.Invoke(dataContext, new object[] { queryable }) as DbCommand;
-        }
-    }
-
-    class EFCoreDatabaseHelper : DatabaseHelper
-    {
-        protected override DbCommand CreateCommand(IQueryable queryable)
-        {
-            return queryable.CreateDbCommand();
         }
     }
 }
