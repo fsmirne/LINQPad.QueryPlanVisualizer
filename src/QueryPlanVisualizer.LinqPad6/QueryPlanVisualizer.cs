@@ -25,20 +25,28 @@ namespace QueryPlanVisualizer.LinqPad6
 
         private static void DumpPlanInternal<T>(IQueryable<T> queryable, bool dumpData, bool addNewPanel)
         {
-            var databaseHelper = DatabaseHelper.Create(queryable, Util.CurrentQuery.GetConnectionInfo().DriverData.Element("EFProvider").Value);
+            var ormHelper = OrmHelper.Create(queryable, Util.CurrentQuery.GetConnectionInfo().DriverData.Element("EFProvider").Value);
 
-            if (databaseHelper == null)
+            if (ormHelper == null)
             {
                 ShowError("The selected database or database driver isn't supported");
                 return;
             }
-            
+
             if (dumpData)
             {
                 queryable.Dump();
             }
 
-            var rawPlan = databaseHelper.GetQueryPlan(queryable).Dump();
+            var databaseProcessor = ormHelper.GetDatabaseProcessor(queryable);
+
+            if (databaseProcessor == null)
+            {
+                ShowError("Selected database not supported");
+                return;
+            }
+
+            var rawPlan = databaseProcessor.ExtractPlan().Dump();
 
             if (string.IsNullOrEmpty(rawPlan))
             {

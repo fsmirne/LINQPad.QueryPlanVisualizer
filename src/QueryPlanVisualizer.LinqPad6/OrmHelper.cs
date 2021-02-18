@@ -1,27 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Reflection;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
-    internal abstract class DatabaseHelper
+    internal abstract class OrmHelper
     {
-        private readonly IPlanExtractor planExtractor;
+        private readonly DatabaseProcessor databaseProcessor;
 
-        protected DatabaseHelper(IPlanExtractor planExtractor)
+        protected OrmHelper(DatabaseProcessor databaseProcessor)
         {
-            this.planExtractor = planExtractor;
+            this.databaseProcessor = databaseProcessor;
         }
 
-        public static DatabaseHelper Create<T>(IQueryable<T> queryable, string driver)
+        public static OrmHelper Create<T>(IQueryable<T> queryable, string driver)
         {
             if (driver.Contains("EntityFrameworkCore"))
             {
-                return new EFCoreDatabaseHelper(driver);
+                return new EFCoreHelper(driver);
             }
 
             var queryType = queryable.GetType();
@@ -37,53 +34,42 @@ namespace QueryPlanVisualizer.LinqPad6
 
                 if (context != null)
                 {
-                    return new LinqToSqlDatabaseHelper(context);
+                    return new LinqToSqlHelper(context);
                 }
             }
 
             return null;
         }
 
-        public virtual string GetQueryPlan<T>(IQueryable<T> queryable)
+        protected abstract DbCommand CreateCommand(IQueryable queryable);
+
+        public DatabaseProcessor GetDatabaseProcessor<T>(IQueryable<T> queryable)
         {
-            if (planExtractor == null)
+            if (databaseProcessor == null)
             {
                 return null;
             }
 
-            using var command = CreateCommand(queryable);
-            try
-            {
-                if (command.Connection.State != ConnectionState.Open)
-                {
-                    command.Connection.Open();
-                }
-
-                return planExtractor.ExtractPlan(command);
-            }
-            finally
-            {
-                command.Connection.Close();
-            }
+            var dbCommand = CreateCommand(queryable);
+            databaseProcessor.Initialize(dbCommand);
+            return databaseProcessor;
         }
-
-        protected abstract DbCommand CreateCommand(IQueryable queryable);
     }
 
-    class EFCoreDatabaseHelper : DatabaseHelper
+    class EFCoreHelper : OrmHelper
     {
-        public EFCoreDatabaseHelper(string provider) : base(GetPlanExtractor(provider))
+        public EFCoreHelper(string provider) : base(GetDatabaseProcessor(provider))
         {
         }
 
-        private static IPlanExtractor GetPlanExtractor(string provider)
+        private static DatabaseProcessor GetDatabaseProcessor(string provider)
         {
             switch (provider)
             {
                 case "Microsoft.EntityFrameworkCore.SqlServer":
-                    return new SqlServerPlanExtractor();
+                    return new SqlServerDatabaseProcessor();
                 case "Npgsql.EntityFrameworkCore.PostgreSQL":
-                    return new PostgresPlanExtractor();
+                    return new PostgresDatabaseProcessor();
                 default:
                     return null;
             }
@@ -95,11 +81,11 @@ namespace QueryPlanVisualizer.LinqPad6
         }
     }
 
-    class LinqToSqlDatabaseHelper : DatabaseHelper
+    class LinqToSqlHelper : OrmHelper
     {
         private readonly object dataContext;
 
-        public LinqToSqlDatabaseHelper(object dataContext) : base(new SqlServerPlanExtractor())
+        public LinqToSqlHelper(object dataContext) : base(new SqlServerDatabaseProcessor())
         {
             this.dataContext = dataContext;
         }
