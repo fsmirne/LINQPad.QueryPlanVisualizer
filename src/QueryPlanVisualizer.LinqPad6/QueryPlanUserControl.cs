@@ -20,7 +20,8 @@ namespace QueryPlanVisualizer.LinqPad6
 
         public void DisplayPlan(string rawPlan)
         {
-            PlanConvertor.ConvertPlanToHtml(rawPlan);
+            var html = PlanConvertor.ConvertPlanToHtml(rawPlan);
+            webBrowser.DocumentText = html;
         }
     }
 }
