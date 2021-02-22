@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Data.Common;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Xsl;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
-    abstract class DatabaseProcessor
+    abstract class DatabaseProvider
     {
         private DbCommand command;
 
@@ -36,10 +32,9 @@ namespace QueryPlanVisualizer.LinqPad6
         }
 
         protected abstract string ExtractPlanInternal(DbCommand command);
-        public abstract string ConvertPlanToHtml(string rawPlan);
     }
 
-    class PostgresDatabaseProcessor : DatabaseProcessor
+    class PostgresDatabaseProvider : DatabaseProvider
     {
         protected override string ExtractPlanInternal(DbCommand command)
         {
@@ -50,14 +45,9 @@ namespace QueryPlanVisualizer.LinqPad6
 
             return plan;
         }
-
-        public override string ConvertPlanToHtml(string rawPlan)
-        {
-            return rawPlan;
-        }
     }
 
-    class SqlServerDatabaseProcessor : DatabaseProcessor
+    class SqlServerDatabaseProvider : DatabaseProvider
     {
         protected override string ExtractPlanInternal(DbCommand command)
         {
@@ -76,22 +66,6 @@ namespace QueryPlanVisualizer.LinqPad6
             }
 
             return null;
-        }
-
-        public override string ConvertPlanToHtml(string rawPlan)
-        {
-            using var reader = XmlReader.Create(new StringReader(rawPlan));
-            var transform = new XslCompiledTransform(true);
-            transform.Load("qp.xslt");
-
-            var returnValue = new StringBuilder();
-
-            using (var writer = XmlWriter.Create(returnValue, transform.OutputSettings))
-            {
-                transform.Transform(reader, writer);
-            }
-
-            return returnValue.ToString();
         }
     }
 }

@@ -38,21 +38,30 @@ namespace QueryPlanVisualizer.LinqPad6
                 queryable.Dump();
             }
 
-            var databaseProcessor = ormHelper.GetDatabaseProcessor(queryable);
+            var databaseProvider = ormHelper.GetDatabaseProvider(queryable);
 
-            if (databaseProcessor == null)
+            if (databaseProvider == null)
             {
                 ShowError("Selected database not supported");
                 return;
             }
 
-            var rawPlan = databaseProcessor.ExtractPlan().Dump();
+            var rawPlan = databaseProvider.ExtractPlan();
 
             if (string.IsNullOrEmpty(rawPlan))
             {
                 ShowError("Cannot extract query plan");
                 return;
             }
+
+            var control = new QueryPlanUserControl
+            {
+                DatabaseProvider = databaseProvider,
+                PlanConvertor = ormHelper.GetPlanConvertor()
+            };
+
+            control.DisplayPlan(rawPlan);
+            control.Dump(ExecutionPlanPanelTitle);
         }
 
         private static void ShowError(string text)

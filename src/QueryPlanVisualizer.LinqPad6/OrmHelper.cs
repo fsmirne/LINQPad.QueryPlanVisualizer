@@ -7,11 +7,13 @@ namespace QueryPlanVisualizer.LinqPad6
 {
     internal abstract class OrmHelper
     {
-        private readonly DatabaseProcessor databaseProcessor;
+        private readonly IPlanConvertor planConvertor;
+        private readonly DatabaseProvider databaseProvider;
 
-        protected OrmHelper(DatabaseProcessor databaseProcessor)
+        protected OrmHelper((DatabaseProvider provider, IPlanConvertor planConvertor) parameters)
         {
-            this.databaseProcessor = databaseProcessor;
+            databaseProvider = parameters.provider;
+            planConvertor = parameters.planConvertor;
         }
 
         public static OrmHelper Create<T>(IQueryable<T> queryable, string driver)
@@ -43,36 +45,40 @@ namespace QueryPlanVisualizer.LinqPad6
 
         protected abstract DbCommand CreateCommand(IQueryable queryable);
 
-        public DatabaseProcessor GetDatabaseProcessor<T>(IQueryable<T> queryable)
+        public IPlanConvertor GetPlanConvertor()
         {
-            if (databaseProcessor == null)
+            return planConvertor;
+        }
+
+        public DatabaseProvider GetDatabaseProvider<T>(IQueryable<T> queryable)
+        {
+            if (databaseProvider == null)
             {
                 return null;
             }
 
             var dbCommand = CreateCommand(queryable);
-            databaseProcessor.Initialize(dbCommand);
-            return databaseProcessor;
+            databaseProvider.Initialize(dbCommand);
+            return databaseProvider;
         }
     }
 
     class EFCoreHelper : OrmHelper
     {
-        public EFCoreHelper(string provider) : base(GetDatabaseProcessor(provider))
+        public EFCoreHelper(string provider) : base(CreateParameters(provider))
         {
         }
 
-        private static DatabaseProcessor GetDatabaseProcessor(string provider)
+        static (DatabaseProvider provider, IPlanConvertor planConvertor) CreateParameters(string provider)
         {
             switch (provider)
             {
                 case "Microsoft.EntityFrameworkCore.SqlServer":
-                    return new SqlServerDatabaseProcessor();
+                    return (new SqlServerDatabaseProvider(), new SqlServerPlanConvertor());
                 case "Npgsql.EntityFrameworkCore.PostgreSQL":
-                    return new PostgresDatabaseProcessor();
-                default:
-                    return null;
+                    return (new PostgresDatabaseProvider(), new PostgresPlanConvertor());
             }
+            return (null, null);
         }
 
         protected override DbCommand CreateCommand(IQueryable queryable)
@@ -85,7 +91,7 @@ namespace QueryPlanVisualizer.LinqPad6
     {
         private readonly object dataContext;
 
-        public LinqToSqlHelper(object dataContext) : base(new SqlServerDatabaseProcessor())
+        public LinqToSqlHelper(object dataContext) : base((new SqlServerDatabaseProvider(), new SqlServerPlanConvertor()))
         {
             this.dataContext = dataContext;
         }
