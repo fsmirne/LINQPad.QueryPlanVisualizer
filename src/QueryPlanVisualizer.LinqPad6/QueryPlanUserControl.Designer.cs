@@ -35,9 +35,9 @@ namespace QueryPlanVisualizer.LinqPad6
             this.savePlanButton = new System.Windows.Forms.Button();
             this.planSavedLabel = new System.Windows.Forms.Label();
             this.planLocationLinkLabel = new System.Windows.Forms.LinkLabel();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.label1 = new System.Windows.Forms.Label();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.indexProgressBar = new System.Windows.Forms.ProgressBar();
+            this.indexLabel = new System.Windows.Forms.Label();
+            this.tabControl = new System.Windows.Forms.TabControl();
             this.mainTabPage = new System.Windows.Forms.TabPage();
             this.webBrowser = new System.Windows.Forms.WebBrowser();
             this.indexesTabPage = new System.Windows.Forms.TabPage();
@@ -49,7 +49,11 @@ namespace QueryPlanVisualizer.LinqPad6
             this.createIndexColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.missingIndexDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.savePlanFileDialog = new System.Windows.Forms.SaveFileDialog();
-            this.tabControl1.SuspendLayout();
+            this.sharePlanButton = new System.Windows.Forms.Button();
+            this.planLinkLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.planSharedLabel = new System.Windows.Forms.Label();
+            this.shareProgressBar = new System.Windows.Forms.ProgressBar();
+            this.tabControl.SuspendLayout();
             this.mainTabPage.SuspendLayout();
             this.indexesTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexesDataGridView)).BeginInit();
@@ -60,28 +64,30 @@ namespace QueryPlanVisualizer.LinqPad6
             // 
             this.openPlanButton.AutoSize = true;
             this.openPlanButton.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.openPlanButton.Location = new System.Drawing.Point(9, 11);
+            this.openPlanButton.Location = new System.Drawing.Point(2, 14);
             this.openPlanButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.openPlanButton.Name = "openPlanButton";
             this.openPlanButton.Size = new System.Drawing.Size(296, 30);
             this.openPlanButton.TabIndex = 0;
             this.openPlanButton.Text = "Open with Sql Server Management Studio";
             this.openPlanButton.UseVisualStyleBackColor = true;
+            this.openPlanButton.Click += new System.EventHandler(this.OpenPlanButtonClick);
             // 
             // savePlanButton
             // 
-            this.savePlanButton.Location = new System.Drawing.Point(329, 12);
+            this.savePlanButton.Location = new System.Drawing.Point(400, 14);
             this.savePlanButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.savePlanButton.Name = "savePlanButton";
-            this.savePlanButton.Size = new System.Drawing.Size(94, 29);
+            this.savePlanButton.Size = new System.Drawing.Size(94, 30);
             this.savePlanButton.TabIndex = 1;
             this.savePlanButton.Text = "Save Plan";
             this.savePlanButton.UseVisualStyleBackColor = true;
+            this.savePlanButton.Click += new System.EventHandler(this.SavePlanButtonClick);
             // 
             // planSavedLabel
             // 
             this.planSavedLabel.AutoSize = true;
-            this.planSavedLabel.Location = new System.Drawing.Point(449, 16);
+            this.planSavedLabel.Location = new System.Drawing.Point(506, 19);
             this.planSavedLabel.Name = "planSavedLabel";
             this.planSavedLabel.Size = new System.Drawing.Size(100, 20);
             this.planSavedLabel.TabIndex = 2;
@@ -91,44 +97,49 @@ namespace QueryPlanVisualizer.LinqPad6
             // planLocationLinkLabel
             // 
             this.planLocationLinkLabel.AutoSize = true;
-            this.planLocationLinkLabel.Location = new System.Drawing.Point(554, 16);
+            this.planLocationLinkLabel.Location = new System.Drawing.Point(506, 43);
             this.planLocationLinkLabel.Name = "planLocationLinkLabel";
             this.planLocationLinkLabel.Size = new System.Drawing.Size(165, 20);
             this.planLocationLinkLabel.TabIndex = 3;
             this.planLocationLinkLabel.TabStop = true;
             this.planLocationLinkLabel.Text = "plan location goes here";
             this.planLocationLinkLabel.Visible = false;
+            this.planLocationLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PlanLocationLinkLabelLinkClicked);
             // 
-            // progressBar1
+            // indexProgressBar
             // 
-            this.progressBar1.Location = new System.Drawing.Point(739, 12);
-            this.progressBar1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(189, 28);
-            this.progressBar1.TabIndex = 4;
+            this.indexProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.indexProgressBar.Location = new System.Drawing.Point(38, 540);
+            this.indexProgressBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.indexProgressBar.Name = "indexProgressBar";
+            this.indexProgressBar.Size = new System.Drawing.Size(189, 28);
+            this.indexProgressBar.TabIndex = 4;
+            this.indexProgressBar.Visible = false;
             // 
-            // label1
+            // indexLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(955, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(105, 20);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Creating index";
+            this.indexLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.indexLabel.AutoSize = true;
+            this.indexLabel.Location = new System.Drawing.Point(254, 544);
+            this.indexLabel.Name = "indexLabel";
+            this.indexLabel.Size = new System.Drawing.Size(105, 20);
+            this.indexLabel.TabIndex = 5;
+            this.indexLabel.Text = "Creating index";
+            this.indexLabel.Visible = false;
             // 
-            // tabControl1
+            // tabControl
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabControl1.Controls.Add(this.mainTabPage);
-            this.tabControl1.Controls.Add(this.indexesTabPage);
-            this.tabControl1.Location = new System.Drawing.Point(0, 55);
-            this.tabControl1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(1142, 735);
-            this.tabControl1.TabIndex = 6;
+            this.tabControl.Controls.Add(this.mainTabPage);
+            this.tabControl.Controls.Add(this.indexesTabPage);
+            this.tabControl.Location = new System.Drawing.Point(0, 55);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.tabControl.Name = "tabControl";
+            this.tabControl.SelectedIndex = 0;
+            this.tabControl.Size = new System.Drawing.Size(1414, 721);
+            this.tabControl.TabIndex = 6;
             // 
             // mainTabPage
             // 
@@ -137,7 +148,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.mainTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.mainTabPage.Name = "mainTabPage";
             this.mainTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.mainTabPage.Size = new System.Drawing.Size(1134, 702);
+            this.mainTabPage.Size = new System.Drawing.Size(1406, 688);
             this.mainTabPage.TabIndex = 0;
             this.mainTabPage.Text = "Query Execution Plan";
             this.mainTabPage.UseVisualStyleBackColor = true;
@@ -150,17 +161,19 @@ namespace QueryPlanVisualizer.LinqPad6
             this.webBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.webBrowser.MinimumSize = new System.Drawing.Size(27, 31);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(1128, 698);
+            this.webBrowser.Size = new System.Drawing.Size(1400, 684);
             this.webBrowser.TabIndex = 10;
             // 
             // indexesTabPage
             // 
             this.indexesTabPage.Controls.Add(this.indexesDataGridView);
+            this.indexesTabPage.Controls.Add(this.indexProgressBar);
+            this.indexesTabPage.Controls.Add(this.indexLabel);
             this.indexesTabPage.Location = new System.Drawing.Point(4, 29);
             this.indexesTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.indexesTabPage.Name = "indexesTabPage";
             this.indexesTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.indexesTabPage.Size = new System.Drawing.Size(1134, 702);
+            this.indexesTabPage.Size = new System.Drawing.Size(1406, 688);
             this.indexesTabPage.TabIndex = 1;
             this.indexesTabPage.Text = "Missing Indexes";
             this.indexesTabPage.UseVisualStyleBackColor = true;
@@ -179,13 +192,13 @@ namespace QueryPlanVisualizer.LinqPad6
             this.scriptDataGridViewTextBoxColumn,
             this.createIndexColumn});
             this.indexesDataGridView.DataSource = this.missingIndexDetailsBindingSource;
-            this.indexesDataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.indexesDataGridView.Dock = System.Windows.Forms.DockStyle.Top;
             this.indexesDataGridView.Location = new System.Drawing.Point(3, 2);
             this.indexesDataGridView.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.indexesDataGridView.Name = "indexesDataGridView";
             this.indexesDataGridView.ReadOnly = true;
             this.indexesDataGridView.RowHeadersWidth = 4;
-            this.indexesDataGridView.Size = new System.Drawing.Size(1128, 698);
+            this.indexesDataGridView.Size = new System.Drawing.Size(1400, 396);
             this.indexesDataGridView.TabIndex = 1;
             // 
             // impactDataGridViewTextBoxColumn
@@ -250,24 +263,70 @@ namespace QueryPlanVisualizer.LinqPad6
             this.savePlanFileDialog.Filter = "Execution Plan Files|*.sqlplan";
             this.savePlanFileDialog.RestoreDirectory = true;
             // 
+            // sharePlanButton
+            // 
+            this.sharePlanButton.Location = new System.Drawing.Point(824, 4);
+            this.sharePlanButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.sharePlanButton.Name = "sharePlanButton";
+            this.sharePlanButton.Size = new System.Drawing.Size(209, 74);
+            this.sharePlanButton.TabIndex = 7;
+            this.sharePlanButton.Text = "Share Plan on https://www.brentozar.com/pastetheplan/";
+            this.sharePlanButton.UseVisualStyleBackColor = true;
+            this.sharePlanButton.Click += new System.EventHandler(this.SharePlanButtonClick);
+            // 
+            // planLinkLinkLabel
+            // 
+            this.planLinkLinkLabel.AutoSize = true;
+            this.planLinkLinkLabel.Location = new System.Drawing.Point(1040, 43);
+            this.planLinkLinkLabel.Name = "planLinkLinkLabel";
+            this.planLinkLinkLabel.Size = new System.Drawing.Size(165, 20);
+            this.planLinkLinkLabel.TabIndex = 8;
+            this.planLinkLinkLabel.TabStop = true;
+            this.planLinkLinkLabel.Text = "plan location goes here";
+            this.planLinkLinkLabel.Visible = false;
+            this.planLinkLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PlanLinkLinkLabelLinkClicked);
+            // 
+            // planSharedLabel
+            // 
+            this.planSharedLabel.AutoSize = true;
+            this.planSharedLabel.Location = new System.Drawing.Point(1040, 14);
+            this.planSharedLabel.Name = "planSharedLabel";
+            this.planSharedLabel.Size = new System.Drawing.Size(67, 20);
+            this.planSharedLabel.TabIndex = 9;
+            this.planSharedLabel.Text = "Plan link:";
+            this.planSharedLabel.Visible = false;
+            // 
+            // shareProgressBar
+            // 
+            this.shareProgressBar.Location = new System.Drawing.Point(1051, 5);
+            this.shareProgressBar.Name = "shareProgressBar";
+            this.shareProgressBar.Size = new System.Drawing.Size(217, 29);
+            this.shareProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.shareProgressBar.TabIndex = 10;
+            this.shareProgressBar.Visible = false;
+            // 
             // QueryPlanUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.planSharedLabel);
             this.Controls.Add(this.planLocationLinkLabel);
+            this.Controls.Add(this.shareProgressBar);
+            this.Controls.Add(this.planLinkLinkLabel);
+            this.Controls.Add(this.sharePlanButton);
+            this.Controls.Add(this.tabControl);
             this.Controls.Add(this.planSavedLabel);
             this.Controls.Add(this.savePlanButton);
             this.Controls.Add(this.openPlanButton);
             this.Location = new System.Drawing.Point(327, 10);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "QueryPlanUserControl";
-            this.Size = new System.Drawing.Size(1151, 814);
-            this.tabControl1.ResumeLayout(false);
+            this.Size = new System.Drawing.Size(1423, 814);
+            this.Load += new System.EventHandler(this.QueryPlanUserControlLoad);
+            this.tabControl.ResumeLayout(false);
             this.mainTabPage.ResumeLayout(false);
             this.indexesTabPage.ResumeLayout(false);
+            this.indexesTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.indexesDataGridView)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.missingIndexDetailsBindingSource)).EndInit();
             this.ResumeLayout(false);
@@ -281,9 +340,9 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.Button savePlanButton;
         private System.Windows.Forms.Label planSavedLabel;
         private System.Windows.Forms.LinkLabel planLocationLinkLabel;
-        private System.Windows.Forms.ProgressBar progressBar1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.ProgressBar indexProgressBar;
+        private System.Windows.Forms.Label indexLabel;
+        private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage mainTabPage;
         private System.Windows.Forms.TabPage indexesTabPage;
         private System.Windows.Forms.WebBrowser webBrowser;
@@ -295,5 +354,9 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.DataGridViewTextBoxColumn tableDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn scriptDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn createIndexColumn;
+        private System.Windows.Forms.Button sharePlanButton;
+        private System.Windows.Forms.LinkLabel planLinkLinkLabel;
+        private System.Windows.Forms.Label planSharedLabel;
+        private System.Windows.Forms.ProgressBar shareProgressBar;
     }
 }
