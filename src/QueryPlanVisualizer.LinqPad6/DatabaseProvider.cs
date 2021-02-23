@@ -1,10 +1,13 @@
-﻿using System;
+﻿using ExecutionPlanVisualizer;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using System.Xml.Linq;
-using ExecutionPlanVisualizer;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
@@ -13,6 +16,7 @@ namespace QueryPlanVisualizer.LinqPad6
         private DbCommand command;
         public abstract string PlanExtension { get; }
         public abstract string PlanSaveDialogFilter { get; }
+        public abstract string SharePlanWebsite { get; }
 
         internal void Initialize(DbCommand command)
         {
@@ -42,12 +46,15 @@ namespace QueryPlanVisualizer.LinqPad6
         {
             return new List<MissingIndexDetails>();
         }
+
+        public abstract Task<string> SharePlanAsync(string plan);
     }
 
     class PostgresDatabaseProvider : DatabaseProvider
     {
         public override string PlanExtension { get; } = "txt";
         public override string PlanSaveDialogFilter { get; }
+        public override string SharePlanWebsite { get; }
 
         protected override string ExtractPlanInternal(DbCommand command)
         {
@@ -58,6 +65,11 @@ namespace QueryPlanVisualizer.LinqPad6
 
             return plan;
         }
+
+        public override Task<string> SharePlanAsync(string plan)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     class SqlServerDatabaseProvider : DatabaseProvider
@@ -66,6 +78,7 @@ namespace QueryPlanVisualizer.LinqPad6
 
         public override string PlanExtension { get; } = "sqlplan";
         public override string PlanSaveDialogFilter { get; } = "Execution Plan Files|*.sqlplan";
+        public override string SharePlanWebsite { get; } = "https://www.brentozar.com/pastetheplan/";
 
         protected override string ExtractPlanInternal(DbCommand command)
         {
@@ -132,6 +145,16 @@ namespace QueryPlanVisualizer.LinqPad6
                          select index;
 
             return result.ToList();
+        }
+
+        public override async Task<string> SharePlanAsync(string plan)
+        {
+            using var client = new HttpClient();
+            var responseMessage = await client.PostAsJsonAsync("https://jeczi7iqj8.execute-api.us-west-2.amazonaws.com/prod/", new { queryplan_xml = plan });
+            var doc = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
+            var queryId = doc.RootElement.GetProperty("id").GetString();
+
+            return $"https://www.brentozar.com/pastetheplan/?id={queryId}";
         }
     }
 }

@@ -1,11 +1,9 @@
-﻿using System;
+﻿using ExecutionPlanVisualizer;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Net.Http;
-using System.Text.Json;
 using System.Windows.Forms;
-using ExecutionPlanVisualizer;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
@@ -36,6 +34,8 @@ namespace QueryPlanVisualizer.LinqPad6
                 var fileDescription = FileVersionInfo.GetVersionInfo(assocQueryString).FileDescription;
                 openPlanButton.Text = $"Open with {fileDescription}";
             }
+
+            sharePlanButton.Text = $"Share Plan on {DatabaseProvider.SharePlanWebsite}";
         }
 
         internal IPlanConvertor PlanConvertor { get; set; }
@@ -106,17 +106,13 @@ namespace QueryPlanVisualizer.LinqPad6
             planLinkLinkLabel.Visible = planSharedLabel.Visible = false;
             try
             {
-                using var client = new HttpClient();
-                var responseMessage = await client.PostAsJsonAsync("https://jeczi7iqj8.execute-api.us-west-2.amazonaws.com/prod/", new {queryplan_xml = plan});
-                var doc = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
-                var queryId = doc.RootElement.GetProperty("id").GetString();
-                planLinkLinkLabel.Text = $"https://www.brentozar.com/pastetheplan/?id={queryId}";
-                
+                planLinkLinkLabel.Text = await DatabaseProvider.SharePlanAsync(plan);
+
                 planLinkLinkLabel.Visible = planSharedLabel.Visible = true;
             }
             catch (Exception exception)
             {
-                MessageBox.Show($"Error sharing plan: {exception.Message}","Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Error sharing plan: {exception.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             finally
             {
