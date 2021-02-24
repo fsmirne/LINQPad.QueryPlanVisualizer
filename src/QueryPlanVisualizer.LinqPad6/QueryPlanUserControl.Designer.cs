@@ -35,7 +35,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.openPlanButton = new System.Windows.Forms.Button();
             this.savePlanButton = new System.Windows.Forms.Button();
             this.planSavedLabel = new System.Windows.Forms.Label();
-            this.planLocationLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.planLocationLinkLabel = new MyLinkLabel();
             this.indexProgressBar = new System.Windows.Forms.ProgressBar();
             this.indexLabel = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
@@ -51,10 +51,10 @@ namespace QueryPlanVisualizer.LinqPad6
             this.missingIndexDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.savePlanFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.sharePlanButton = new System.Windows.Forms.Button();
-            this.planLinkLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.planLinkLinkLabel = new MyLinkLabel();
             this.planSharedLabel = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.githubLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.githubLinkLabel = new MyLinkLabel();
             this.kofiButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.mainTabPage.SuspendLayout();
@@ -371,7 +371,7 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.Button openPlanButton;
         private System.Windows.Forms.Button savePlanButton;
         private System.Windows.Forms.Label planSavedLabel;
-        private System.Windows.Forms.LinkLabel planLocationLinkLabel;
+        private MyLinkLabel planLocationLinkLabel;
         private System.Windows.Forms.ProgressBar indexProgressBar;
         private System.Windows.Forms.Label indexLabel;
         private System.Windows.Forms.TabControl tabControl;
@@ -387,10 +387,10 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.DataGridViewTextBoxColumn scriptDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewButtonColumn createIndexColumn;
         private System.Windows.Forms.Button sharePlanButton;
-        private System.Windows.Forms.LinkLabel planLinkLinkLabel;
+        private MyLinkLabel planLinkLinkLabel;
         private System.Windows.Forms.Label planSharedLabel;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.LinkLabel githubLinkLabel;
+        private MyLinkLabel githubLinkLabel;
         private System.Windows.Forms.Button kofiButton;
     }
 }
