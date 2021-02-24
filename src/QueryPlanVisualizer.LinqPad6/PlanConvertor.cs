@@ -7,19 +7,13 @@ namespace QueryPlanVisualizer.LinqPad6
     interface IPlanConvertor
     {
         string ConvertPlanToHtml(string rawPlan);
-        List<string> ExtractFiles();
     }
 
     class PostgresPlanConvertor : IPlanConvertor
     {
         public string ConvertPlanToHtml(string rawPlan)
         {
-            return rawPlan;
-        }
-
-        public List<string> ExtractFiles()
-        {
-            throw new NotImplementedException();
+            return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ","&nbsp;");
         }
     }
 

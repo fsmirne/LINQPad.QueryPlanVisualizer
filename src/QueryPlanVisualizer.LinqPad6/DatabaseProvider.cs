@@ -13,14 +13,17 @@ namespace QueryPlanVisualizer.LinqPad6
 {
     abstract class DatabaseProvider
     {
+        public string Query { get; private set; }
         private DbCommand command;
+
         public abstract string PlanExtension { get; }
         public abstract string PlanSaveDialogFilter { get; }
         public abstract string SharePlanWebsite { get; }
 
-        internal void Initialize(DbCommand command)
+        internal void Initialize(DbCommand command, string query)
         {
             this.command = command;
+            this.Query = query;
         }
 
         public string ExtractPlan()
@@ -53,8 +56,8 @@ namespace QueryPlanVisualizer.LinqPad6
     class PostgresDatabaseProvider : DatabaseProvider
     {
         public override string PlanExtension { get; } = "txt";
-        public override string PlanSaveDialogFilter { get; }
-        public override string SharePlanWebsite { get; }
+        public override string PlanSaveDialogFilter { get; } = "Text Files|*.txt";
+        public override string SharePlanWebsite { get; } = "https://explain.dalibo.com/";
 
         protected override string ExtractPlanInternal(DbCommand command)
         {
@@ -66,9 +69,12 @@ namespace QueryPlanVisualizer.LinqPad6
             return plan;
         }
 
-        public override Task<string> SharePlanAsync(string plan)
+        public override async Task<string> SharePlanAsync(string plan)
         {
-            throw new NotImplementedException();
+            using var client = new HttpClient();
+            var data = new { plan = plan, title = "Query Plan from LINQpad", query = Query };
+            var responseMessage = await client.PostAsJsonAsync("https://explain.dalibo.com/new", data);
+            return responseMessage.RequestMessage.RequestUri.ToString();
         }
     }
 

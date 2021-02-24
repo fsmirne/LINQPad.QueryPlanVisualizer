@@ -58,7 +58,7 @@ namespace QueryPlanVisualizer.LinqPad6
             }
 
             var dbCommand = CreateCommand(queryable);
-            databaseProvider.Initialize(dbCommand);
+            databaseProvider.Initialize(dbCommand, queryable.ToQueryString());
             return databaseProvider;
         }
     }
