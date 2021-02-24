@@ -40,6 +40,14 @@ namespace QueryPlanVisualizer.LinqPad6
 
         internal IPlanConvertor PlanConvertor { get; set; }
         internal DatabaseProvider DatabaseProvider { get; set; }
+        
+        private void StartProcess(string fileName)
+        {
+            Process.Start(new ProcessStartInfo(fileName)
+            {
+                UseShellExecute = true
+            });
+        }
 
         public void DisplayPlan(string rawPlan)
         {
@@ -71,10 +79,7 @@ namespace QueryPlanVisualizer.LinqPad6
 
             try
             {
-                Process.Start(new ProcessStartInfo(tempFile)
-                {
-                    UseShellExecute = true,
-                });
+                StartProcess(tempFile);
             }
             catch (Exception exception)
             {
@@ -102,30 +107,37 @@ namespace QueryPlanVisualizer.LinqPad6
 
         private async void SharePlanButtonClick(object sender, EventArgs e)
         {
-            shareProgressBar.Visible = true;
-            planLinkLinkLabel.Visible = planSharedLabel.Visible = false;
+            planSharedLabel.Visible = true;
+            planSharedLabel.Text = "Sharing your plan...";
+            planLinkLinkLabel.Visible = false;
+            
             try
             {
                 planLinkLinkLabel.Text = await DatabaseProvider.SharePlanAsync(plan);
 
-                planLinkLinkLabel.Visible = planSharedLabel.Visible = true;
+                planLinkLinkLabel.Visible = true;
+                planSharedLabel.Text = "Plan Shared.";
             }
             catch (Exception exception)
             {
+                planSharedLabel.Visible = false;
                 MessageBox.Show($"Error sharing plan: {exception.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-            finally
-            {
-                shareProgressBar.Visible = false;
             }
         }
 
         private void PlanLinkLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Process.Start(new ProcessStartInfo(planLinkLinkLabel.Text)
-            {
-                UseShellExecute = true
-            });
+            StartProcess(planLinkLinkLabel.Text);
+        }
+
+        private void GitHubLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            StartProcess("https://github.com/Giorgi/LINQPad.QueryPlanVisualizer/");
+        }
+
+        private void KofiButtonClick(object sender, EventArgs e)
+        {
+            StartProcess("https://ko-fi.com/Giorgi");
         }
     }
 }

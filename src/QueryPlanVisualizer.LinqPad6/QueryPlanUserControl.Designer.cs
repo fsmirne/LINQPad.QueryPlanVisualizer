@@ -31,6 +31,7 @@ namespace QueryPlanVisualizer.LinqPad6
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueryPlanUserControl));
             this.openPlanButton = new System.Windows.Forms.Button();
             this.savePlanButton = new System.Windows.Forms.Button();
             this.planSavedLabel = new System.Windows.Forms.Label();
@@ -52,7 +53,9 @@ namespace QueryPlanVisualizer.LinqPad6
             this.sharePlanButton = new System.Windows.Forms.Button();
             this.planLinkLinkLabel = new System.Windows.Forms.LinkLabel();
             this.planSharedLabel = new System.Windows.Forms.Label();
-            this.shareProgressBar = new System.Windows.Forms.ProgressBar();
+            this.button1 = new System.Windows.Forms.Button();
+            this.githubLinkLabel = new System.Windows.Forms.LinkLabel();
+            this.kofiButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.mainTabPage.SuspendLayout();
             this.indexesTabPage.SuspendLayout();
@@ -138,7 +141,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.tabControl.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1414, 721);
+            this.tabControl.Size = new System.Drawing.Size(1414, 720);
             this.tabControl.TabIndex = 6;
             // 
             // mainTabPage
@@ -148,7 +151,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.mainTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.mainTabPage.Name = "mainTabPage";
             this.mainTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.mainTabPage.Size = new System.Drawing.Size(1406, 688);
+            this.mainTabPage.Size = new System.Drawing.Size(1406, 687);
             this.mainTabPage.TabIndex = 0;
             this.mainTabPage.Text = "Query Execution Plan";
             this.mainTabPage.UseVisualStyleBackColor = true;
@@ -161,7 +164,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.webBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.webBrowser.MinimumSize = new System.Drawing.Size(27, 31);
             this.webBrowser.Name = "webBrowser";
-            this.webBrowser.Size = new System.Drawing.Size(1400, 684);
+            this.webBrowser.Size = new System.Drawing.Size(1400, 683);
             this.webBrowser.TabIndex = 10;
             // 
             // indexesTabPage
@@ -173,7 +176,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.indexesTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.indexesTabPage.Name = "indexesTabPage";
             this.indexesTabPage.Padding = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.indexesTabPage.Size = new System.Drawing.Size(1406, 688);
+            this.indexesTabPage.Size = new System.Drawing.Size(1406, 687);
             this.indexesTabPage.TabIndex = 1;
             this.indexesTabPage.Text = "Missing Indexes";
             this.indexesTabPage.UseVisualStyleBackColor = true;
@@ -296,22 +299,51 @@ namespace QueryPlanVisualizer.LinqPad6
             this.planSharedLabel.Text = "Plan link:";
             this.planSharedLabel.Visible = false;
             // 
-            // shareProgressBar
+            // button1
             // 
-            this.shareProgressBar.Location = new System.Drawing.Point(1051, 5);
-            this.shareProgressBar.Name = "shareProgressBar";
-            this.shareProgressBar.Size = new System.Drawing.Size(217, 29);
-            this.shareProgressBar.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
-            this.shareProgressBar.TabIndex = 10;
-            this.shareProgressBar.Visible = false;
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
+            this.button1.Location = new System.Drawing.Point(7, 777);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(44, 44);
+            this.button1.TabIndex = 11;
+            this.button1.UseVisualStyleBackColor = true;
+            // 
+            // githubLinkLabel
+            // 
+            this.githubLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.githubLinkLabel.AutoSize = true;
+            this.githubLinkLabel.Location = new System.Drawing.Point(57, 789);
+            this.githubLinkLabel.Name = "githubLinkLabel";
+            this.githubLinkLabel.Size = new System.Drawing.Size(160, 20);
+            this.githubLinkLabel.TabIndex = 12;
+            this.githubLinkLabel.TabStop = true;
+            this.githubLinkLabel.Text = "View Project on GitHub";
+            this.githubLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.GitHubLinkLabelLinkClicked);
+            // 
+            // kofiButton
+            // 
+            this.kofiButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kofiButton.BackColor = System.Drawing.Color.Transparent;
+            this.kofiButton.Image = ((System.Drawing.Image)(resources.GetObject("kofiButton.Image")));
+            this.kofiButton.Location = new System.Drawing.Point(235, 777);
+            this.kofiButton.Name = "kofiButton";
+            this.kofiButton.Size = new System.Drawing.Size(183, 44);
+            this.kofiButton.TabIndex = 13;
+            this.kofiButton.UseVisualStyleBackColor = false;
+            this.kofiButton.Click += new System.EventHandler(this.KofiButtonClick);
             // 
             // QueryPlanUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.kofiButton);
+            this.Controls.Add(this.githubLinkLabel);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.planSharedLabel);
             this.Controls.Add(this.planLocationLinkLabel);
-            this.Controls.Add(this.shareProgressBar);
             this.Controls.Add(this.planLinkLinkLabel);
             this.Controls.Add(this.sharePlanButton);
             this.Controls.Add(this.tabControl);
@@ -321,7 +353,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.Location = new System.Drawing.Point(327, 10);
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "QueryPlanUserControl";
-            this.Size = new System.Drawing.Size(1423, 814);
+            this.Size = new System.Drawing.Size(1423, 822);
             this.Load += new System.EventHandler(this.QueryPlanUserControlLoad);
             this.tabControl.ResumeLayout(false);
             this.mainTabPage.ResumeLayout(false);
@@ -357,6 +389,8 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.Button sharePlanButton;
         private System.Windows.Forms.LinkLabel planLinkLinkLabel;
         private System.Windows.Forms.Label planSharedLabel;
-        private System.Windows.Forms.ProgressBar shareProgressBar;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.LinkLabel githubLinkLabel;
+        private System.Windows.Forms.Button kofiButton;
     }
 }
