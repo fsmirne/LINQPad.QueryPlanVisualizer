@@ -3,6 +3,7 @@ using LINQPad;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
+using QueryPlanVisualizer.LinqPad6.Helpers;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
@@ -26,20 +27,11 @@ namespace QueryPlanVisualizer.LinqPad6
 
         private static void DumpPlanInternal<T>(IQueryable<T> queryable, bool dumpData, bool addNewPanel)
         {
-            var providerName = "";
+            var providerName = Util.CurrentQuery.GetConnectionInfo().DriverData.ElementValue("EFProvider");
 
-            var providerElement = Util.CurrentQuery.GetConnectionInfo().DriverData.Element("EFProvider");
-
-            if (providerElement == null)
+            if (providerName == null && Util.CurrentDataContext is DbContext context)
             {
-                if (Util.CurrentDataContext is DbContext context)
-                {
-                    providerName = context.Database.ProviderName;
-                }
-            }
-            else
-            {
-                providerName = providerElement.Value;
+                providerName = context.Database.ProviderName;
             }
 
             var ormHelper = OrmHelper.Create(queryable, providerName);

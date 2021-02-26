@@ -5,6 +5,7 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
+using QueryPlanVisualizer.LinqPad6.Helpers;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
