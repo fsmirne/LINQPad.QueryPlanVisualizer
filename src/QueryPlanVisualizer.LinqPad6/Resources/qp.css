@@ -12,6 +12,7 @@ div.qp-tt {
 }
 
 .qp-statement-header {
+    display: none;
     border-color: black;
     border-style: solid;
     border-width: 1px 0px 1px 0px;
@@ -271,6 +272,7 @@ div.qp-node:hover .qp-tt {
 }
 
 .qp-root {
+    margin-left: -25px;
     position: relative;
     /*display: inline-block;*/
 }
