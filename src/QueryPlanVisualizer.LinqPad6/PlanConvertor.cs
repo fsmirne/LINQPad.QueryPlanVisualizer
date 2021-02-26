@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
-using QueryPlanVisualizer.LinqPad6.Helpers;
+using ExecutionPlanVisualizer.Helpers;
 
-namespace QueryPlanVisualizer.LinqPad6
+namespace ExecutionPlanVisualizer
 {
     internal abstract class PlanProcessor
     {

@@ -1,14 +1,13 @@
-﻿using ExecutionPlanVisualizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using QueryPlanVisualizer.LinqPad6.Helpers;
+using ExecutionPlanVisualizer.Helpers;
 
-namespace QueryPlanVisualizer.LinqPad6
+namespace ExecutionPlanVisualizer
 {
     abstract class DatabaseProvider
     {

@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace QueryPlanVisualizer.LinqPad6.Helpers
+namespace ExecutionPlanVisualizer.Helpers
 {
     static class HttpClientExtensions
     {

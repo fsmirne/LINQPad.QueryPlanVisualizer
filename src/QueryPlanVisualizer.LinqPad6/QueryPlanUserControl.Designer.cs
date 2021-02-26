@@ -1,4 +1,6 @@
 ﻿
+using ExecutionPlanVisualizer;
+
 namespace QueryPlanVisualizer.LinqPad6
 {
     partial class QueryPlanUserControl
@@ -34,8 +36,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.openPlanButton = new System.Windows.Forms.Button();
             this.savePlanButton = new System.Windows.Forms.Button();
             this.planSavedLabel = new System.Windows.Forms.Label();
-            this.planLocationLinkLabel = new MyLinkLabel();
-            this.indexProgressBar = new System.Windows.Forms.ProgressBar();
+            this.planLocationLinkLabel = new ExecutionPlanVisualizer.MyLinkLabel();
             this.indexLabel = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.mainTabPage = new System.Windows.Forms.TabPage();
@@ -50,13 +51,14 @@ namespace QueryPlanVisualizer.LinqPad6
             this.missingIndexDetailsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.savePlanFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.sharePlanButton = new System.Windows.Forms.Button();
-            this.planLinkLinkLabel = new MyLinkLabel();
+            this.planLinkLinkLabel = new ExecutionPlanVisualizer.MyLinkLabel();
             this.planSharedLabel = new System.Windows.Forms.Label();
             this.githubButton = new System.Windows.Forms.Button();
-            this.githubLinkLabel = new MyLinkLabel();
+            this.githubLinkLabel = new ExecutionPlanVisualizer.MyLinkLabel();
             this.kofiButton = new System.Windows.Forms.Button();
-            this.kofiLinkLabel = new MyLinkLabel();
-            this.copyLinkLabel = new MyLinkLabel();
+            this.kofiLinkLabel = new ExecutionPlanVisualizer.MyLinkLabel();
+            this.copyLinkLabel = new ExecutionPlanVisualizer.MyLinkLabel();
+            this.indexProgressBar = new System.Windows.Forms.ProgressBar();
             this.tabControl.SuspendLayout();
             this.mainTabPage.SuspendLayout();
             this.indexesTabPage.SuspendLayout();
@@ -113,25 +115,15 @@ namespace QueryPlanVisualizer.LinqPad6
             this.planLocationLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.planLocationLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PlanLocationLinkLabelLinkClicked);
             // 
-            // indexProgressBar
-            // 
-            this.indexProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.indexProgressBar.Location = new System.Drawing.Point(38, 540);
-            this.indexProgressBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.indexProgressBar.Name = "indexProgressBar";
-            this.indexProgressBar.Size = new System.Drawing.Size(189, 28);
-            this.indexProgressBar.TabIndex = 4;
-            this.indexProgressBar.Visible = false;
-            // 
             // indexLabel
             // 
-            this.indexLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.indexLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.indexLabel.AutoSize = true;
-            this.indexLabel.Location = new System.Drawing.Point(254, 544);
+            this.indexLabel.Location = new System.Drawing.Point(12, 592);
             this.indexLabel.Name = "indexLabel";
-            this.indexLabel.Size = new System.Drawing.Size(105, 20);
+            this.indexLabel.Size = new System.Drawing.Size(114, 20);
             this.indexLabel.TabIndex = 5;
-            this.indexLabel.Text = "Creating index";
+            this.indexLabel.Text = "Creating index...";
             this.indexLabel.Visible = false;
             // 
             // tabControl
@@ -173,9 +165,9 @@ namespace QueryPlanVisualizer.LinqPad6
             // 
             // indexesTabPage
             // 
+            this.indexesTabPage.Controls.Add(this.indexLabel);
             this.indexesTabPage.Controls.Add(this.indexesDataGridView);
             this.indexesTabPage.Controls.Add(this.indexProgressBar);
-            this.indexesTabPage.Controls.Add(this.indexLabel);
             this.indexesTabPage.Location = new System.Drawing.Point(4, 29);
             this.indexesTabPage.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.indexesTabPage.Name = "indexesTabPage";
@@ -184,8 +176,6 @@ namespace QueryPlanVisualizer.LinqPad6
             this.indexesTabPage.TabIndex = 1;
             this.indexesTabPage.Text = "Missing Indexes";
             this.indexesTabPage.UseVisualStyleBackColor = true;
-            this.indexesDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.IndexesDataGridViewCellContentClick);
-            this.indexesDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.IndexesDataGridViewDataBindingComplete);
             // 
             // indexesDataGridView
             // 
@@ -209,6 +199,8 @@ namespace QueryPlanVisualizer.LinqPad6
             this.indexesDataGridView.RowHeadersWidth = 4;
             this.indexesDataGridView.Size = new System.Drawing.Size(1400, 396);
             this.indexesDataGridView.TabIndex = 1;
+            this.indexesDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.IndexesDataGridViewCellContentClick);
+            this.indexesDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.IndexesDataGridViewDataBindingComplete);
             // 
             // impactDataGridViewTextBoxColumn
             // 
@@ -366,7 +358,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.copyLinkLabel.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.copyLinkLabel.AutoSize = true;
             this.copyLinkLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.copyLinkLabel.Location = new System.Drawing.Point(1126, 12);
+            this.copyLinkLabel.Location = new System.Drawing.Point(1126, 13);
             this.copyLinkLabel.Name = "copyLinkLabel";
             this.copyLinkLabel.Size = new System.Drawing.Size(43, 20);
             this.copyLinkLabel.TabIndex = 15;
@@ -375,6 +367,16 @@ namespace QueryPlanVisualizer.LinqPad6
             this.copyLinkLabel.Visible = false;
             this.copyLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.copyLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkLabelLinkClicked);
+            // 
+            // indexProgressBar
+            // 
+            this.indexProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.indexProgressBar.Location = new System.Drawing.Point(12, 641);
+            this.indexProgressBar.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.indexProgressBar.Name = "indexProgressBar";
+            this.indexProgressBar.Size = new System.Drawing.Size(189, 28);
+            this.indexProgressBar.TabIndex = 4;
+            this.indexProgressBar.Visible = false;
             // 
             // QueryPlanUserControl
             // 
@@ -415,7 +417,6 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.Button savePlanButton;
         private System.Windows.Forms.Label planSavedLabel;
         private MyLinkLabel planLocationLinkLabel;
-        private System.Windows.Forms.ProgressBar indexProgressBar;
         private System.Windows.Forms.Label indexLabel;
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage mainTabPage;
@@ -437,5 +438,6 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.Button kofiButton;
         private MyLinkLabel kofiLinkLabel;
         private MyLinkLabel copyLinkLabel;
+        private System.Windows.Forms.ProgressBar indexProgressBar;
     }
 }

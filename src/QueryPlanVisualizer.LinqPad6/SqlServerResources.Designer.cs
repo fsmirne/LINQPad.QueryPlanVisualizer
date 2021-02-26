@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace QueryPlanVisualizer.LinqPad6 {
+namespace ExecutionPlanVisualizer {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace QueryPlanVisualizer.LinqPad6 {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("QueryPlanVisualizer.LinqPad6.SqlServerResources", typeof(SqlServerResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ExecutionPlanVisualizer.SqlServerResources", typeof(SqlServerResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

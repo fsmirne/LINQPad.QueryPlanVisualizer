@@ -1,11 +1,12 @@
 ﻿using System;
-using LINQPad;
 using System.Linq;
 using System.Windows.Forms;
+using ExecutionPlanVisualizer.Helpers;
+using LINQPad;
 using Microsoft.EntityFrameworkCore;
-using QueryPlanVisualizer.LinqPad6.Helpers;
+using QueryPlanVisualizer.LinqPad6;
 
-namespace QueryPlanVisualizer.LinqPad6
+namespace ExecutionPlanVisualizer
 {
     public static class QueryPlanVisualizer
     {

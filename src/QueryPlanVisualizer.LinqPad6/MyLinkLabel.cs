@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
-namespace QueryPlanVisualizer.LinqPad6
+namespace ExecutionPlanVisualizer
 {
     //From https://stackoverflow.com/a/54165759/239438
     public class MyLinkLabel : LinkLabel

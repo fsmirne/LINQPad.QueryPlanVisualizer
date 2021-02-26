@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace QueryPlanVisualizer.LinqPad6
+namespace ExecutionPlanVisualizer
 {
     class NativeMethods
     {

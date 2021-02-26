@@ -1,9 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Data.Common;
+﻿using System.Data.Common;
 using System.Linq;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 
-namespace QueryPlanVisualizer.LinqPad6
+namespace ExecutionPlanVisualizer
 {
     internal abstract class OrmHelper
     {

@@ -1,6 +1,6 @@
 ﻿using System.Xml.Linq;
 
-namespace QueryPlanVisualizer.LinqPad6.Helpers
+namespace ExecutionPlanVisualizer.Helpers
 {
     static class XmlUtils
     {
