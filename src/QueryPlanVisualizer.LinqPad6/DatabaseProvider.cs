@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
     abstract class DatabaseProvider
     {
-        private DbCommand command;
+        protected DbCommand Command { get; private set; }
 
         public abstract string PlanExtension { get; }
         public abstract string PlanSaveDialogFilter { get; }
@@ -18,23 +19,23 @@ namespace QueryPlanVisualizer.LinqPad6
 
         internal void Initialize(DbCommand command)
         {
-            this.command = command;
+            Command = command;
         }
 
         public string ExtractPlan()
         {
             try
             {
-                if (command.Connection.State != ConnectionState.Open)
+                if (Command.Connection.State != ConnectionState.Open)
                 {
-                    command.Connection.Open();
+                    Command.Connection.Open();
                 }
 
-                return ExtractPlanInternal(command);
+                return ExtractPlanInternal(Command);
             }
             finally
             {
-                command.Connection.Close();
+                Command.Connection.Close();
             }
         }
 
@@ -43,6 +44,11 @@ namespace QueryPlanVisualizer.LinqPad6
         public virtual List<MissingIndexDetails> GetMissingIndexes(string rawPlan)
         {
             return new List<MissingIndexDetails>();
+        }
+
+        public virtual Task CreateIndexAsync(string script)
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -136,6 +142,22 @@ namespace QueryPlanVisualizer.LinqPad6
                          select index;
 
             return result.ToList();
+        }
+
+        public override async Task CreateIndexAsync(string script)
+        {
+            try
+            {
+                await Command.Connection.OpenAsync();
+
+                await using var command = Command.Connection.CreateCommand();
+                command.CommandText = script;
+                await command.ExecuteNonQueryAsync();
+            }
+            finally
+            {
+                Command.Connection.Close();
+            }
         }
     }
 }

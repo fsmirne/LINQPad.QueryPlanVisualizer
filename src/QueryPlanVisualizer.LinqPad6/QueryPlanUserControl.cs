@@ -199,7 +199,7 @@ namespace QueryPlanVisualizer.LinqPad6
             }
 
             if (MessageBox.Show("Do you really want to create this index?", "Confirm", 
-                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
             {
                 return;
             }
@@ -209,11 +209,16 @@ namespace QueryPlanVisualizer.LinqPad6
             try
             {
                 indexesDataGridView.Enabled = false;
-                //progressBar.Visible = indexLabel.Visible = true;
+                indexProgressBar.Visible = indexLabel.Visible = true;
 
-                //await DatabaseHelper.CreateIndexAsync(script);
+                await DatabaseProvider.CreateIndexAsync(script);
 
-                //IndexCreated?.Invoke(sender, e);
+                if (MessageBox.Show("Index created. Refresh query plan?", "", 
+                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    var newPlan = DatabaseProvider.ExtractPlan();
+                    DisplayPlan(newPlan);
+                }
             }
             catch (Exception exception)
             {
@@ -221,7 +226,7 @@ namespace QueryPlanVisualizer.LinqPad6
             }
 
             indexesDataGridView.Enabled = true;
-            //progressBar.Visible = indexLabel.Visible = false;
+            indexProgressBar.Visible = indexLabel.Visible = false;
         }
     }
 }
