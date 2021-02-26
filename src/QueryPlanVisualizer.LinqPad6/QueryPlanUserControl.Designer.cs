@@ -30,7 +30,7 @@ namespace QueryPlanVisualizer.LinqPad6
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             this.openPlanButton = new System.Windows.Forms.Button();
             this.savePlanButton = new System.Windows.Forms.Button();
             this.planSavedLabel = new System.Windows.Forms.Label();
@@ -56,6 +56,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.githubLinkLabel = new MyLinkLabel();
             this.kofiButton = new System.Windows.Forms.Button();
             this.kofiLinkLabel = new MyLinkLabel();
+            this.copyLinkLabel = new MyLinkLabel();
             this.tabControl.SuspendLayout();
             this.mainTabPage.SuspendLayout();
             this.indexesTabPage.SuspendLayout();
@@ -240,8 +241,8 @@ namespace QueryPlanVisualizer.LinqPad6
             // scriptDataGridViewTextBoxColumn
             // 
             this.scriptDataGridViewTextBoxColumn.DataPropertyName = "Script";
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.scriptDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.scriptDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle4;
             this.scriptDataGridViewTextBoxColumn.FillWeight = 50F;
             this.scriptDataGridViewTextBoxColumn.HeaderText = "Script";
             this.scriptDataGridViewTextBoxColumn.MinimumWidth = 6;
@@ -358,10 +359,26 @@ namespace QueryPlanVisualizer.LinqPad6
             this.kofiLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.kofiLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.KofiLinkLabelLinkClicked);
             // 
+            // copyLinkLabel
+            // 
+            this.copyLinkLabel.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.copyLinkLabel.AutoSize = true;
+            this.copyLinkLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
+            this.copyLinkLabel.Location = new System.Drawing.Point(1126, 12);
+            this.copyLinkLabel.Name = "copyLinkLabel";
+            this.copyLinkLabel.Size = new System.Drawing.Size(43, 20);
+            this.copyLinkLabel.TabIndex = 15;
+            this.copyLinkLabel.TabStop = true;
+            this.copyLinkLabel.Text = "Copy";
+            this.copyLinkLabel.Visible = false;
+            this.copyLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.copyLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.CopyLinkLabelLinkClicked);
+            // 
             // QueryPlanUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.copyLinkLabel);
             this.Controls.Add(this.kofiLinkLabel);
             this.Controls.Add(this.kofiButton);
             this.Controls.Add(this.githubLinkLabel);
@@ -417,5 +434,6 @@ namespace QueryPlanVisualizer.LinqPad6
         private MyLinkLabel githubLinkLabel;
         private System.Windows.Forms.Button kofiButton;
         private MyLinkLabel kofiLinkLabel;
+        private MyLinkLabel copyLinkLabel;
     }
 }

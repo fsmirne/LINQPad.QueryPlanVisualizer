@@ -54,20 +54,12 @@ namespace QueryPlanVisualizer.LinqPad6
         {
             var resources = new ComponentResourceManager(typeof(QueryPlanUserControl));
 
-            kofiButton.Image = (Image) resources.GetObject("kofiButton.Image");
-            githubButton.Image = (Image) resources.GetObject("githubButton.Image");
+            kofiButton.Image = (Image)resources.GetObject("kofiButton.Image");
+            githubButton.Image = (Image)resources.GetObject("githubButton.Image");
         }
 
         internal IPlanConvertor PlanConvertor { get; set; }
         internal DatabaseProvider DatabaseProvider { get; set; }
-
-        private void StartProcess(string fileName)
-        {
-            Process.Start(new ProcessStartInfo(fileName)
-            {
-                UseShellExecute = true
-            });
-        }
 
         public void DisplayPlan(string rawPlan)
         {
@@ -90,6 +82,14 @@ namespace QueryPlanVisualizer.LinqPad6
 
             indexesDataGridView.DataSource = indexes;
             indexesDataGridView.ResetBindings();
+        }
+
+        private void StartProcess(string fileName)
+        {
+            Process.Start(new ProcessStartInfo(fileName)
+            {
+                UseShellExecute = true
+            });
         }
 
         private void OpenPlanButtonClick(object sender, EventArgs e)
@@ -128,21 +128,28 @@ namespace QueryPlanVisualizer.LinqPad6
         private async void SharePlanButtonClick(object sender, EventArgs e)
         {
             planSharedLabel.Visible = true;
+            copyLinkLabel.Text = "Copy";
             planSharedLabel.Text = "Sharing your plan...";
-            planLinkLinkLabel.Visible = false;
-
+            copyLinkLabel.Visible = planLinkLinkLabel.Visible = false;
+            
             try
             {
                 planLinkLinkLabel.Text = await DatabaseProvider.SharePlanAsync(plan);
 
-                planLinkLinkLabel.Visible = true;
+                copyLinkLabel.Visible = planLinkLinkLabel.Visible = true;
                 planSharedLabel.Text = "Plan Shared.";
             }
             catch (Exception exception)
             {
-                planSharedLabel.Visible = false;
+                copyLinkLabel.Visible = planSharedLabel.Visible = false;
                 MessageBox.Show($"Error sharing plan: {exception.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void CopyLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Clipboard.SetText(planLinkLinkLabel.Text);
+            copyLinkLabel.Text = "Copied!";
         }
 
         private void PlanLinkLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
