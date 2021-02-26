@@ -184,6 +184,8 @@ namespace QueryPlanVisualizer.LinqPad6
             this.indexesTabPage.TabIndex = 1;
             this.indexesTabPage.Text = "Missing Indexes";
             this.indexesTabPage.UseVisualStyleBackColor = true;
+            this.indexesDataGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.IndexesDataGridViewCellContentClick);
+            this.indexesDataGridView.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.IndexesDataGridViewDataBindingComplete);
             // 
             // indexesDataGridView
             // 

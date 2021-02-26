@@ -3,28 +3,22 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
     abstract class DatabaseProvider
     {
-        public string Query { get; private set; }
         private DbCommand command;
 
         public abstract string PlanExtension { get; }
         public abstract string PlanSaveDialogFilter { get; }
         public abstract string SharePlanWebsite { get; }
 
-        internal void Initialize(DbCommand command, string query)
+        internal void Initialize(DbCommand command)
         {
             this.command = command;
-            this.Query = query;
         }
 
         public string ExtractPlan()
@@ -50,8 +44,6 @@ namespace QueryPlanVisualizer.LinqPad6
         {
             return new List<MissingIndexDetails>();
         }
-
-        public abstract Task<string> SharePlanAsync(string plan);
     }
 
     class PostgresDatabaseProvider : DatabaseProvider
@@ -68,14 +60,6 @@ namespace QueryPlanVisualizer.LinqPad6
             var plan = string.Join(Environment.NewLine, reader.Cast<IDataRecord>().Select(r => r.GetString(0)));
 
             return plan;
-        }
-
-        public override async Task<string> SharePlanAsync(string plan)
-        {
-            using var client = new HttpClient();
-            var data = new { plan = plan, title = "Query Plan from LINQpad", query = Query };
-            var responseMessage = await client.PostAsJsonAsync("https://explain.dalibo.com/new", data);
-            return responseMessage.RequestMessage.RequestUri.ToString();
         }
     }
 
@@ -152,16 +136,6 @@ namespace QueryPlanVisualizer.LinqPad6
                          select index;
 
             return result.ToList();
-        }
-
-        public override async Task<string> SharePlanAsync(string plan)
-        {
-            using var client = new HttpClient();
-            var responseMessage = await client.PostAsJsonAsync("https://jeczi7iqj8.execute-api.us-west-2.amazonaws.com/prod/", new { queryplan_xml = plan });
-            var doc = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
-            var queryId = doc.RootElement.GetProperty("id").GetString();
-
-            return $"https://www.brentozar.com/pastetheplan/?id={queryId}";
         }
     }
 }

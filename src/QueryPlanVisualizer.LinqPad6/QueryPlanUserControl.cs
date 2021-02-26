@@ -58,7 +58,7 @@ namespace QueryPlanVisualizer.LinqPad6
             githubButton.Image = (Image)resources.GetObject("githubButton.Image");
         }
 
-        internal IPlanConvertor PlanConvertor { get; set; }
+        internal PlanProcessor PlanProcessor { get; set; }
         internal DatabaseProvider DatabaseProvider { get; set; }
 
         public void DisplayPlan(string rawPlan)
@@ -66,7 +66,7 @@ namespace QueryPlanVisualizer.LinqPad6
             plan = rawPlan;
 
             indexes = DatabaseProvider.GetMissingIndexes(rawPlan);
-            webBrowser.DocumentText = PlanConvertor.ConvertPlanToHtml(rawPlan);
+            webBrowser.DocumentText = PlanProcessor.ConvertPlanToHtml(rawPlan);
 
             if (indexes.Count > 0 && tabControl.TabPages.Count == 1)
             {
@@ -134,7 +134,7 @@ namespace QueryPlanVisualizer.LinqPad6
             
             try
             {
-                planLinkLinkLabel.Text = await DatabaseProvider.SharePlanAsync(plan);
+                planLinkLinkLabel.Text = await PlanProcessor.SharePlanAsync(plan);
 
                 copyLinkLabel.Visible = planLinkLinkLabel.Visible = true;
                 planSharedLabel.Text = "Plan Shared.";
@@ -170,6 +170,58 @@ namespace QueryPlanVisualizer.LinqPad6
         private void KofiButtonClick(object sender, EventArgs e)
         {
             StartProcess("https://ko-fi.com/Giorgi");
+        }
+
+        private void IndexesDataGridViewDataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            //http://stackoverflow.com/a/10049887/239438
+            for (int i = 0; i < indexesDataGridView.Columns.Count - 1; i++)
+            {
+                indexesDataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            }
+
+            indexesDataGridView.Columns[indexesDataGridView.Columns.Count - 2].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+
+            for (int i = 0; i < indexesDataGridView.Columns.Count; i++)
+            {
+                int width = indexesDataGridView.Columns[i].Width;
+                indexesDataGridView.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                indexesDataGridView.Columns[i].Width = width;
+            }
+        }
+
+        private async void IndexesDataGridViewCellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //http://stackoverflow.com/a/13687844/239438
+            if (!(indexesDataGridView.Columns[e.ColumnIndex] is DataGridViewButtonColumn) || e.RowIndex < 0)
+            {
+                return;
+            }
+
+            if (MessageBox.Show("Do you really want to create this index?", "Confirm", 
+                    MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            var script = indexes[e.RowIndex].Script;
+
+            try
+            {
+                indexesDataGridView.Enabled = false;
+                //progressBar.Visible = indexLabel.Visible = true;
+
+                //await DatabaseHelper.CreateIndexAsync(script);
+
+                //IndexCreated?.Invoke(sender, e);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show($"Cannot create index. {exception.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            indexesDataGridView.Enabled = true;
+            //progressBar.Visible = indexLabel.Visible = false;
         }
     }
 }

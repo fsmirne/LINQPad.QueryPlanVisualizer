@@ -55,6 +55,7 @@ namespace QueryPlanVisualizer.LinqPad6
                 queryable.Dump();
             }
 
+            var planProcessor = ormHelper.GetPlanProcessor(queryable);
             var databaseProvider = ormHelper.GetDatabaseProvider(queryable);
 
             if (databaseProvider == null)
@@ -74,7 +75,7 @@ namespace QueryPlanVisualizer.LinqPad6
             var control = new QueryPlanUserControl
             {
                 DatabaseProvider = databaseProvider,
-                PlanConvertor = ormHelper.GetPlanConvertor()
+                PlanProcessor = planProcessor
             };
 
             control.DisplayPlan(rawPlan);
