@@ -58,9 +58,11 @@ namespace QueryPlanVisualizer.LinqPad6
             }
 
             var dbCommand = CreateCommand(queryable);
-            databaseProvider.Initialize(dbCommand, queryable.ToQueryString());
+            databaseProvider.Initialize(dbCommand, GetQueryText(queryable));
             return databaseProvider;
         }
+
+        protected abstract string GetQueryText<T>(IQueryable<T> queryable);
     }
 
     class EFCoreHelper : OrmHelper
@@ -85,6 +87,11 @@ namespace QueryPlanVisualizer.LinqPad6
         {
             return queryable.CreateDbCommand();
         }
+
+        protected override string GetQueryText<T>(IQueryable<T> queryable)
+        {
+            return queryable.ToQueryString();
+        }
     }
 
     class LinqToSqlHelper : OrmHelper
@@ -100,6 +107,11 @@ namespace QueryPlanVisualizer.LinqPad6
         {
             var getCommand = dataContext.GetType().GetMethod("GetCommand", BindingFlags.Public | BindingFlags.Instance);
             return getCommand.Invoke(dataContext, new object[] { queryable }) as DbCommand;
+        }
+
+        protected override string GetQueryText<T>(IQueryable<T> queryable)
+        {
+            return queryable.ToString();
         }
     }
 }
