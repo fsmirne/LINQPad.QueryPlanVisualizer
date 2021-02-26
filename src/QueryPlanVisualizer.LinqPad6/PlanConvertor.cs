@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 
 namespace QueryPlanVisualizer.LinqPad6
 {
@@ -37,7 +38,10 @@ namespace QueryPlanVisualizer.LinqPad6
             {
                 var icons = Path.Combine(folder, "qp_icons.png");
 
-                SqlServerResources.qp_icons.Save(icons);
+                using (var iconsStream = File.OpenWrite(icons))
+                {
+                    Assembly.GetExecutingAssembly().GetManifestResourceStream("QueryPlanVisualizer.LinqPad6.Resources.qp_icons.png").CopyTo(iconsStream);
+                }
 
                 File.WriteAllText(qpJavascript, SqlServerResources.qp_min_js);
                 File.WriteAllText(qpStyleSheet, SqlServerResources.qp_css); 

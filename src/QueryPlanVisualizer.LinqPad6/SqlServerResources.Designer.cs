@@ -75,6 +75,7 @@ namespace QueryPlanVisualizer.LinqPad6 {
         ///}
         ///
         ///.qp-statement-header {
+        ///    display: none;
         ///    border-color: black;
         ///    border-style: solid;
         ///    border-width: 1px 0px 1px 0px;
@@ -90,22 +91,11 @@ namespace QueryPlanVisualizer.LinqPad6 {
         ///    width: 100%;
         ///    position: absolute;
         ///    overflow: hidden;
-        ///    text-overflow: ellipsis;
-        ///    [rest of string was truncated]&quot;;.
+        ///    text-over [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string qp_css {
             get {
                 return ResourceManager.GetString("qp-css", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap qp_icons {
-            get {
-                object obj = ResourceManager.GetObject("qp_icons", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
             }
         }
         

@@ -16,7 +16,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\qp_icons.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="System.Net.Http.Json" Version="3.2.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\qp_icons.png" />
   </ItemGroup>
 
   <ItemGroup>

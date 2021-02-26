@@ -1,7 +1,9 @@
 ﻿using ExecutionPlanVisualizer;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
@@ -23,6 +25,16 @@ namespace QueryPlanVisualizer.LinqPad6
 
         private void QueryPlanUserControlLoad(object sender, EventArgs e)
         {
+            try
+            {
+                SetButtonImages();
+            }
+            catch
+            {
+                kofiLinkLabel.Visible = true;
+                kofiButton.Visible = githubButton.Visible = false;
+            }
+
             var assocQueryString = NativeMethods.AssocQueryString(NativeMethods.AssocStr.Executable, $".{DatabaseProvider.PlanExtension}");
 
             if (string.IsNullOrEmpty(assocQueryString))
@@ -38,9 +50,17 @@ namespace QueryPlanVisualizer.LinqPad6
             sharePlanButton.Text = $"Share Plan on {DatabaseProvider.SharePlanWebsite}";
         }
 
+        private void SetButtonImages()
+        {
+            var resources = new ComponentResourceManager(typeof(QueryPlanUserControl));
+
+            kofiButton.Image = (Image) resources.GetObject("kofiButton.Image");
+            githubButton.Image = (Image) resources.GetObject("githubButton.Image");
+        }
+
         internal IPlanConvertor PlanConvertor { get; set; }
         internal DatabaseProvider DatabaseProvider { get; set; }
-        
+
         private void StartProcess(string fileName)
         {
             Process.Start(new ProcessStartInfo(fileName)
@@ -110,7 +130,7 @@ namespace QueryPlanVisualizer.LinqPad6
             planSharedLabel.Visible = true;
             planSharedLabel.Text = "Sharing your plan...";
             planLinkLinkLabel.Visible = false;
-            
+
             try
             {
                 planLinkLinkLabel.Text = await DatabaseProvider.SharePlanAsync(plan);
@@ -133,6 +153,11 @@ namespace QueryPlanVisualizer.LinqPad6
         private void GitHubLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             StartProcess("https://github.com/Giorgi/LINQPad.QueryPlanVisualizer/");
+        }
+
+        private void KofiLinkLabelLinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            StartProcess("https://ko-fi.com/Giorgi");
         }
 
         private void KofiButtonClick(object sender, EventArgs e)

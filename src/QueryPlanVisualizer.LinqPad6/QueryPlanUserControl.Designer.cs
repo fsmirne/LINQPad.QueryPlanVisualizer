@@ -30,8 +30,7 @@ namespace QueryPlanVisualizer.LinqPad6
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(QueryPlanUserControl));
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.openPlanButton = new System.Windows.Forms.Button();
             this.savePlanButton = new System.Windows.Forms.Button();
             this.planSavedLabel = new System.Windows.Forms.Label();
@@ -53,9 +52,10 @@ namespace QueryPlanVisualizer.LinqPad6
             this.sharePlanButton = new System.Windows.Forms.Button();
             this.planLinkLinkLabel = new MyLinkLabel();
             this.planSharedLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.githubButton = new System.Windows.Forms.Button();
             this.githubLinkLabel = new MyLinkLabel();
             this.kofiButton = new System.Windows.Forms.Button();
+            this.kofiLinkLabel = new MyLinkLabel();
             this.tabControl.SuspendLayout();
             this.mainTabPage.SuspendLayout();
             this.indexesTabPage.SuspendLayout();
@@ -99,7 +99,9 @@ namespace QueryPlanVisualizer.LinqPad6
             // 
             // planLocationLinkLabel
             // 
+            this.planLocationLinkLabel.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.planLocationLinkLabel.AutoSize = true;
+            this.planLocationLinkLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
             this.planLocationLinkLabel.Location = new System.Drawing.Point(506, 43);
             this.planLocationLinkLabel.Name = "planLocationLinkLabel";
             this.planLocationLinkLabel.Size = new System.Drawing.Size(165, 20);
@@ -107,6 +109,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.planLocationLinkLabel.TabStop = true;
             this.planLocationLinkLabel.Text = "plan location goes here";
             this.planLocationLinkLabel.Visible = false;
+            this.planLocationLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.planLocationLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PlanLocationLinkLabelLinkClicked);
             // 
             // indexProgressBar
@@ -237,8 +240,8 @@ namespace QueryPlanVisualizer.LinqPad6
             // scriptDataGridViewTextBoxColumn
             // 
             this.scriptDataGridViewTextBoxColumn.DataPropertyName = "Script";
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.scriptDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.scriptDataGridViewTextBoxColumn.DefaultCellStyle = dataGridViewCellStyle2;
             this.scriptDataGridViewTextBoxColumn.FillWeight = 50F;
             this.scriptDataGridViewTextBoxColumn.HeaderText = "Script";
             this.scriptDataGridViewTextBoxColumn.MinimumWidth = 6;
@@ -279,7 +282,9 @@ namespace QueryPlanVisualizer.LinqPad6
             // 
             // planLinkLinkLabel
             // 
+            this.planLinkLinkLabel.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.planLinkLinkLabel.AutoSize = true;
+            this.planLinkLinkLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
             this.planLinkLinkLabel.Location = new System.Drawing.Point(1040, 43);
             this.planLinkLinkLabel.Name = "planLinkLinkLabel";
             this.planLinkLinkLabel.Size = new System.Drawing.Size(165, 20);
@@ -287,6 +292,7 @@ namespace QueryPlanVisualizer.LinqPad6
             this.planLinkLinkLabel.TabStop = true;
             this.planLinkLinkLabel.Text = "plan location goes here";
             this.planLinkLinkLabel.Visible = false;
+            this.planLinkLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.planLinkLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.PlanLinkLinkLabelLinkClicked);
             // 
             // planSharedLabel
@@ -299,35 +305,36 @@ namespace QueryPlanVisualizer.LinqPad6
             this.planSharedLabel.Text = "Plan link:";
             this.planSharedLabel.Visible = false;
             // 
-            // button1
+            // githubButton
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.Location = new System.Drawing.Point(7, 777);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(44, 44);
-            this.button1.TabIndex = 11;
-            this.button1.UseVisualStyleBackColor = true;
+            this.githubButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.githubButton.FlatAppearance.BorderSize = 0;
+            this.githubButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.githubButton.Location = new System.Drawing.Point(7, 777);
+            this.githubButton.Name = "githubButton";
+            this.githubButton.Size = new System.Drawing.Size(44, 44);
+            this.githubButton.TabIndex = 11;
+            this.githubButton.UseVisualStyleBackColor = true;
             // 
             // githubLinkLabel
             // 
+            this.githubLinkLabel.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.githubLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.githubLinkLabel.AutoSize = true;
+            this.githubLinkLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
             this.githubLinkLabel.Location = new System.Drawing.Point(57, 789);
             this.githubLinkLabel.Name = "githubLinkLabel";
-            this.githubLinkLabel.Size = new System.Drawing.Size(160, 20);
+            this.githubLinkLabel.Size = new System.Drawing.Size(163, 20);
             this.githubLinkLabel.TabIndex = 12;
             this.githubLinkLabel.TabStop = true;
             this.githubLinkLabel.Text = "View Project on GitHub";
+            this.githubLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
             this.githubLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.GitHubLinkLabelLinkClicked);
             // 
             // kofiButton
             // 
             this.kofiButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.kofiButton.BackColor = System.Drawing.Color.Transparent;
-            this.kofiButton.Image = ((System.Drawing.Image)(resources.GetObject("kofiButton.Image")));
             this.kofiButton.Location = new System.Drawing.Point(235, 777);
             this.kofiButton.Name = "kofiButton";
             this.kofiButton.Size = new System.Drawing.Size(183, 44);
@@ -335,13 +342,30 @@ namespace QueryPlanVisualizer.LinqPad6
             this.kofiButton.UseVisualStyleBackColor = false;
             this.kofiButton.Click += new System.EventHandler(this.KofiButtonClick);
             // 
+            // kofiLinkLabel
+            // 
+            this.kofiLinkLabel.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.kofiLinkLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.kofiLinkLabel.AutoSize = true;
+            this.kofiLinkLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
+            this.kofiLinkLabel.Location = new System.Drawing.Point(244, 789);
+            this.kofiLinkLabel.Name = "kofiLinkLabel";
+            this.kofiLinkLabel.Size = new System.Drawing.Size(145, 20);
+            this.kofiLinkLabel.TabIndex = 14;
+            this.kofiLinkLabel.TabStop = true;
+            this.kofiLinkLabel.Text = "Support me on Ko-fi";
+            this.kofiLinkLabel.Visible = false;
+            this.kofiLinkLabel.VisitedLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(0)))), ((int)(((byte)(128)))));
+            this.kofiLinkLabel.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.KofiLinkLabelLinkClicked);
+            // 
             // QueryPlanUserControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.kofiLinkLabel);
             this.Controls.Add(this.kofiButton);
             this.Controls.Add(this.githubLinkLabel);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.githubButton);
             this.Controls.Add(this.planSharedLabel);
             this.Controls.Add(this.planLocationLinkLabel);
             this.Controls.Add(this.planLinkLinkLabel);
@@ -389,8 +413,9 @@ namespace QueryPlanVisualizer.LinqPad6
         private System.Windows.Forms.Button sharePlanButton;
         private MyLinkLabel planLinkLinkLabel;
         private System.Windows.Forms.Label planSharedLabel;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button githubButton;
         private MyLinkLabel githubLinkLabel;
         private System.Windows.Forms.Button kofiButton;
+        private MyLinkLabel kofiLinkLabel;
     }
 }
