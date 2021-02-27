@@ -16,7 +16,7 @@ namespace ExecutionPlanVisualizer
         {
             try
             {
-                DumpPlanInternal(queryable, dumpData, true);
+                DumpPlanInternal(queryable, dumpData);
             }
             catch (Exception exception)
             {
@@ -26,7 +26,7 @@ namespace ExecutionPlanVisualizer
             return queryable;
         }
 
-        private static void DumpPlanInternal<T>(IQueryable<T> queryable, bool dumpData, bool addNewPanel)
+        private static void DumpPlanInternal<T>(IQueryable<T> queryable, bool dumpData)
         {
             var providerName = Util.CurrentQuery.GetConnectionInfo().DriverData.ElementValue("EFProvider");
 

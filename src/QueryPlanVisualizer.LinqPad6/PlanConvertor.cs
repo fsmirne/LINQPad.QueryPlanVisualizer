@@ -60,7 +60,7 @@ namespace ExecutionPlanVisualizer
 
                 using (var iconsStream = File.OpenWrite(icons))
                 {
-                    Assembly.GetExecutingAssembly().GetManifestResourceStream("QueryPlanVisualizer.LinqPad6.Resources.qp_icons.png").CopyTo(iconsStream);
+                    Assembly.GetExecutingAssembly().GetManifestResourceStream("ExecutionPlanVisualizer.Resources.qp_icons.png").CopyTo(iconsStream);
                 }
 
                 File.WriteAllText(qpJavascript, SqlServerResources.qp_min_js);
