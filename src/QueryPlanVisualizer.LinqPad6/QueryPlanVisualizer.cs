@@ -28,12 +28,8 @@ namespace ExecutionPlanVisualizer
 
         private static void DumpPlanInternal<T>(IQueryable<T> queryable, bool dumpData)
         {
-            var providerName = Util.CurrentQuery.GetConnectionInfo().DriverData.ElementValue("EFProvider");
-
-            if (providerName == null && Util.CurrentDataContext is DbContext context)
-            {
-                providerName = context.Database.ProviderName;
-            }
+            var providerName = Util.CurrentDataContext is DbContext context ? context.Database.ProviderName
+                             : Util.CurrentQuery.GetConnectionInfo().DriverData.ElementValue("EFProvider");
 
             var ormHelper = OrmHelper.Create(queryable, providerName);
 
