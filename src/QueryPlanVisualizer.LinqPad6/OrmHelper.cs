@@ -7,20 +7,16 @@ namespace ExecutionPlanVisualizer
 {
     internal abstract class OrmHelper
     {
-        private readonly PlanProcessor planProcessor;
-        private readonly DatabaseProvider databaseProvider;
+        public PlanProcessor PlanProcessor { get; }
+        public DatabaseProvider DatabaseProvider { get; }
 
-        protected OrmHelper((DatabaseProvider provider, PlanProcessor planConvertor) parameters)
+        public static OrmHelper Create<T>(IQueryable<T> queryable, object dataContext)
         {
-            databaseProvider = parameters.provider;
-            planProcessor = parameters.planConvertor;
-        }
-
-        public static OrmHelper Create<T>(IQueryable<T> queryable, string driver)
-        {
-            if (driver.Contains("EntityFrameworkCore"))
+            if (dataContext is DbContext dbContext)
             {
-                return new EFCoreHelper(driver);
+                var efCoreHelper = new EFCoreHelper(dbContext.Database.ProviderName);
+                efCoreHelper.Initialize(queryable);
+                return efCoreHelper;
             }
 
             var queryType = queryable.GetType();
@@ -36,35 +32,29 @@ namespace ExecutionPlanVisualizer
 
                 if (context != null)
                 {
-                    return new LinqToSqlHelper(context);
+                    var linqToSqlHelper = new LinqToSqlHelper(context);
+                    linqToSqlHelper.Initialize(queryable);
+                    return linqToSqlHelper;
                 }
             }
 
             return null;
         }
 
+        protected OrmHelper((DatabaseProvider provider, PlanProcessor planConvertor) parameters)
+        {
+            DatabaseProvider = parameters.provider;
+            PlanProcessor = parameters.planConvertor;
+        }
+
+        private void Initialize(IQueryable queryable)
+        {
+            PlanProcessor?.Initialize(GetQueryText(queryable));
+            DatabaseProvider?.Initialize(CreateCommand(queryable));
+        }
+
+        protected abstract string GetQueryText(IQueryable queryable);
         protected abstract DbCommand CreateCommand(IQueryable queryable);
-
-        public PlanProcessor GetPlanProcessor<T>(IQueryable<T> queryable)
-        {
-            var query = GetQueryText(queryable);
-            planProcessor.Initialize(query);
-            return planProcessor;
-        }
-
-        public DatabaseProvider GetDatabaseProvider<T>(IQueryable<T> queryable)
-        {
-            if (databaseProvider == null)
-            {
-                return null;
-            }
-
-            var dbCommand = CreateCommand(queryable);
-            databaseProvider.Initialize(dbCommand);
-            return databaseProvider;
-        }
-
-        protected abstract string GetQueryText<T>(IQueryable<T> queryable);
     }
 
     class EFCoreHelper : OrmHelper
@@ -73,7 +63,7 @@ namespace ExecutionPlanVisualizer
         {
         }
 
-        static (DatabaseProvider provider, PlanProcessor planConvertor) CreateParameters(string provider)
+        public static (DatabaseProvider provider, PlanProcessor planConvertor) CreateParameters(string provider)
         {
             switch (provider)
             {
@@ -90,7 +80,7 @@ namespace ExecutionPlanVisualizer
             return queryable.CreateDbCommand();
         }
 
-        protected override string GetQueryText<T>(IQueryable<T> queryable)
+        protected override string GetQueryText(IQueryable queryable)
         {
             return queryable.ToQueryString();
         }
@@ -111,7 +101,7 @@ namespace ExecutionPlanVisualizer
             return getCommand.Invoke(dataContext, new object[] { queryable }) as DbCommand;
         }
 
-        protected override string GetQueryText<T>(IQueryable<T> queryable)
+        protected override string GetQueryText(IQueryable queryable)
         {
             return queryable.ToString();
         }

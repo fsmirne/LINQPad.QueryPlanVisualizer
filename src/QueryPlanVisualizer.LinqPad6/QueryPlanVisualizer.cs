@@ -1,10 +1,8 @@
-﻿using System;
+﻿using LINQPad;
+using QueryPlanVisualizer.LinqPad6;
+using System;
 using System.Linq;
 using System.Windows.Forms;
-using ExecutionPlanVisualizer.Helpers;
-using LINQPad;
-using Microsoft.EntityFrameworkCore;
-using QueryPlanVisualizer.LinqPad6;
 
 namespace ExecutionPlanVisualizer
 {
@@ -28,11 +26,8 @@ namespace ExecutionPlanVisualizer
 
         private static void DumpPlanInternal<T>(IQueryable<T> queryable, bool dumpData)
         {
-            var providerName = Util.CurrentDataContext is DbContext context ? context.Database.ProviderName
-                             : Util.CurrentQuery.GetConnectionInfo().DriverData.ElementValue("EFProvider");
-
-            var ormHelper = OrmHelper.Create(queryable, providerName);
-
+            var ormHelper = OrmHelper.Create(queryable, Util.CurrentDataContext);
+            
             if (ormHelper == null)
             {
                 ShowError("The selected database or database driver isn't supported");
@@ -44,16 +39,13 @@ namespace ExecutionPlanVisualizer
                 queryable.Dump();
             }
 
-            var planProcessor = ormHelper.GetPlanProcessor(queryable);
-            var databaseProvider = ormHelper.GetDatabaseProvider(queryable);
-
-            if (databaseProvider == null)
+            if (ormHelper.DatabaseProvider == null)
             {
                 ShowError("Selected database not supported");
                 return;
             }
 
-            var rawPlan = databaseProvider.ExtractPlan();
+            var rawPlan = ormHelper.DatabaseProvider.ExtractPlan();
 
             if (string.IsNullOrEmpty(rawPlan))
             {
@@ -63,8 +55,8 @@ namespace ExecutionPlanVisualizer
 
             var control = new QueryPlanUserControl
             {
-                DatabaseProvider = databaseProvider,
-                PlanProcessor = planProcessor
+                DatabaseProvider = ormHelper.DatabaseProvider,
+                PlanProcessor = ormHelper.PlanProcessor
             };
 
             control.DisplayPlan(rawPlan);
