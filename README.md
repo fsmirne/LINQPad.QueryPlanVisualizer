@@ -4,7 +4,7 @@
 
 ## SQL Server and PostgreSQL query execution plan visualizer for LINQPad
 
-![LINQPad.QueryPlanVisualizer](IconSmall.png "LINQPad.QueryPlanVisualizer")
+<img align="right" width="200" height="200" src="IconSmall.png">
 
 ## Features
 
@@ -28,7 +28,7 @@ to add the visualizer to your queries.
 
 ### Install as plugin
 
-To install the visualizer as a LINQPad plugin, download the [latest release](https://github.com/Giorgi/QueryPlanVisualizer/releases/latest) and drop the visualizer dll directly inside LINQPad's plugins folder (by default found at `My Documents\LINQPad Plugins`). The plugin will be automatically available in all your queries.
+To install the visualizer as a LINQPad plugin, download the [latest release](https://github.com/Giorgi/QueryPlanVisualizer/releases/latest) and drop the visualizer dll directly inside LINQPad's plugins folder (by default found at **My Documents\LINQPad Plugins\NetCore3** for LINQPad 6 and **My Documents\LINQPad Plugins\Framework 4.6** for LINQPad 5). The plugin will be automatically available in all your queries.
 
 ## Viewing query plan
 
