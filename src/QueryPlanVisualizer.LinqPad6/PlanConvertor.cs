@@ -26,7 +26,7 @@ namespace ExecutionPlanVisualizer
     {
         public override string ConvertPlanToHtml(string rawPlan)
         {
-            return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ","&nbsp;");
+            return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ","&nbsp;").Replace("->", "&rarr;");
         }
 
         public override async Task<string> SharePlanAsync(string plan)
