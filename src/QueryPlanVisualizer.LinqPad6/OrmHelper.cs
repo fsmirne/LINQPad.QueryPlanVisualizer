@@ -65,25 +65,17 @@ namespace ExecutionPlanVisualizer
 
         public static (DatabaseProvider provider, PlanProcessor planConvertor) CreateParameters(string provider)
         {
-            switch (provider)
+            return provider switch
             {
-                case "Microsoft.EntityFrameworkCore.SqlServer":
-                    return (new SqlServerDatabaseProvider(), new SqlServerPlanProcessor());
-                case "Npgsql.EntityFrameworkCore.PostgreSQL":
-                    return (new PostgresDatabaseProvider(), new PostgresPlanProcessor());
-            }
-            return (null, null);
+                "Microsoft.EntityFrameworkCore.SqlServer" => (new SqlServerDatabaseProvider(), new SqlServerPlanProcessor()),
+                "Npgsql.EntityFrameworkCore.PostgreSQL" => (new PostgresDatabaseProvider(), new PostgresPlanProcessor()),
+                _ => (null, null)
+            };
         }
 
-        protected override DbCommand CreateCommand(IQueryable queryable)
-        {
-            return queryable.CreateDbCommand();
-        }
+        protected override DbCommand CreateCommand(IQueryable queryable) => queryable.CreateDbCommand();
 
-        protected override string GetQueryText(IQueryable queryable)
-        {
-            return queryable.ToQueryString();
-        }
+        protected override string GetQueryText(IQueryable queryable) => queryable.ToQueryString();
     }
 
     class LinqToSqlHelper : OrmHelper
@@ -101,9 +93,6 @@ namespace ExecutionPlanVisualizer
             return getCommand.Invoke(dataContext, new object[] { queryable }) as DbCommand;
         }
 
-        protected override string GetQueryText(IQueryable queryable)
-        {
-            return queryable.ToString();
-        }
+        protected override string GetQueryText(IQueryable queryable) => queryable.ToString();
     }
 }
