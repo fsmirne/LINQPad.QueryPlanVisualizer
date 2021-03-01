@@ -17,7 +17,7 @@
 
 ## Getting Started
 
-**If you use LINQPad 6, you must use version 2 of this library. For LINQPad 5, you must use version 1.**
+**If you use LINQPad 6, you must use version 2.0 of this library. For LINQPad 5, you must use version 1.0**
 
 The library can show query plans for `LINQ to SQL` driver and `Entity Framework Core 5`.
 
