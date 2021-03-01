@@ -37,7 +37,7 @@ To view query plan or missing indexes, call static `QueryPlanVisualizer.DumpPlan
 Query execution plan:
 ![Sql Server query plan](screenshots/Query%20Plan.PNG "Query execution plan inside LINQPad")
 
-![PostgreSQL query plan](screenshots/Postgres%20Query%20Plan.png "Query execution plan inside LINQPad")
+![PostgreSQL query plan](screenshots/Postgres%20Query%20Plan.PNG "Query execution plan inside LINQPad")
 
 Missing index:
 ![missing indexes](screenshots/Missing%20Index.PNG "Missing index")
