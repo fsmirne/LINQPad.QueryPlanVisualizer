@@ -1,5 +1,4 @@
 ﻿using LINQPad;
-using QueryPlanVisualizer.LinqPad6;
 using System;
 using System.Linq;
 using System.Windows.Forms;

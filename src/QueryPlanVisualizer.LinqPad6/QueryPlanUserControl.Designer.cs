@@ -1,7 +1,4 @@
-﻿
-using ExecutionPlanVisualizer;
-
-namespace QueryPlanVisualizer.LinqPad6
+﻿namespace ExecutionPlanVisualizer
 {
     partial class QueryPlanUserControl
     {
