@@ -1,7 +1,8 @@
 # LINQPad.QueryPlanVisualizer 
 
-[![NuGet Version](https://buildstats.info/NuGet/LINQPadQueryPlanVisualizer)](https://www.NuGet.org/packages/LINQPadQueryPlanVisualizer/) [![Apache license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](https://github.com/Giorgi/QueryPlanVisualizer/blob/master/LICENSE.md)
-<a href='https://ko-fi.com/U6U81LHU8' target='_blank'><img height='24' style='border:0px;height:24px;' src='https://cdn.ko-fi.com/cdn/kofi2.png?v=2' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
+[![NuGet Version](https://buildstats.info/NuGet/LINQPadQueryPlanVisualizer)](https://www.NuGet.org/packages/LINQPadQueryPlanVisualizer/)
+[![Apache license](http://img.shields.io/badge/license-Apache-brightgreen.svg)](https://github.com/Giorgi/QueryPlanVisualizer/blob/master/LICENSE.md)
+[![Ko-Fi](https://img.shields.io/static/v1?style=flat-square&logo=appveyor&message=Support%20the%20Project&color=success&style=plastic&logo=ko-fi&label=$$)](https://ko-fi.com/U6U81LHU8)
 
 ## SQL Server and PostgreSQL query execution plan visualizer for LINQPad
 
