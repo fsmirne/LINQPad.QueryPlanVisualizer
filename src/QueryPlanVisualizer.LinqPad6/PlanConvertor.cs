@@ -12,7 +12,7 @@ namespace ExecutionPlanVisualizer
     internal abstract class PlanProcessor
     {
         public string Query { get; private set; }
-        
+
         public void Initialize(string query)
         {
             Query = query;
@@ -26,15 +26,18 @@ namespace ExecutionPlanVisualizer
     {
         public override string ConvertPlanToHtml(string rawPlan)
         {
-            return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ","&nbsp;").Replace("->", "&rarr;");
+            return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ", "&nbsp;").Replace("->", "&rarr;");
         }
 
         public override async Task<string> SharePlanAsync(string plan)
         {
             using var client = new HttpClient();
             var data = new { plan = plan, title = "Query Plan from LINQPad", query = Query };
-            var responseMessage = await client.PostAsJsonAsync("https://explain.dalibo.com/new", data);
-            return responseMessage.RequestMessage.RequestUri.ToString();
+            var responseMessage = await client.PostAsJsonAsync("https://explain.dalibo.com/new.json", data);
+            var doc = await JsonDocument.ParseAsync(await responseMessage.Content.ReadAsStreamAsync());
+            var queryId = doc.RootElement.GetProperty("id").GetString();
+
+            return $"https://explain.dalibo.com/plan/{queryId}";
         }
     }
 
@@ -45,10 +48,10 @@ namespace ExecutionPlanVisualizer
         public List<string> ExtractFiles()
         {
             var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LINQPadQueryVisualizer", "SqlServer");
-            
+
             var qpJavascript = Path.Combine(folder, "qp.js");
             var qpStyleSheet = Path.Combine(folder, "qp.css");
-            
+
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
@@ -64,12 +67,12 @@ namespace ExecutionPlanVisualizer
                 }
 
                 File.WriteAllText(qpJavascript, SqlServerResources.qp_min_js);
-                File.WriteAllText(qpStyleSheet, SqlServerResources.qp_css); 
+                File.WriteAllText(qpStyleSheet, SqlServerResources.qp_css);
             }
 
             shouldExtract = false;
 
-            return new List<string> { qpStyleSheet, qpJavascript};
+            return new List<string> { qpStyleSheet, qpJavascript };
         }
 
         public override string ConvertPlanToHtml(string rawPlan)
