@@ -46,7 +46,7 @@ namespace ExecutionPlanVisualizer
                 openPlanButton.Text = $"Open with {fileDescription}";
             }
 
-            sharePlanButton.Text = $"Share Plan on {DatabaseProvider.SharePlanWebsite}";
+            sharePlanButton.Text = $"Visualize and Share Plan on {DatabaseProvider.SharePlanWebsite}";
         }
 
         private void SetButtonImages()
@@ -126,11 +126,18 @@ namespace ExecutionPlanVisualizer
 
         private async void SharePlanButtonClick(object sender, EventArgs e)
         {
+            if (MessageBox.Show($"Warning: Your execution plan, including its query and parameters, will be immediately sent to {DatabaseProvider.SharePlanWebsite} and stored in its database for sharing. Please review your query to make sure it doesn't containt sensitive data."
+                                   + $"{Environment.NewLine}Do you want to continue?",
+                                "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
             planSharedLabel.Visible = true;
             copyLinkLabel.Text = "Copy";
             planSharedLabel.Text = "Sharing your plan...";
             copyLinkLabel.Visible = planLinkLinkLabel.Visible = false;
-            
+
             try
             {
                 planLinkLinkLabel.Text = await PlanProcessor.SharePlanAsync(plan);
@@ -197,7 +204,7 @@ namespace ExecutionPlanVisualizer
                 return;
             }
 
-            if (MessageBox.Show("Do you really want to create this index?", "Confirm", 
+            if (MessageBox.Show("Do you really want to create this index?", "Confirm",
                                 MessageBoxButtons.YesNo, MessageBoxIcon.Warning) != DialogResult.Yes)
             {
                 return;
@@ -212,7 +219,7 @@ namespace ExecutionPlanVisualizer
 
                 await DatabaseProvider.CreateIndexAsync(script);
 
-                if (MessageBox.Show("Index created. Refresh query plan?", "", 
+                if (MessageBox.Show("Index created. Refresh query plan?", "",
                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     var newPlan = DatabaseProvider.ExtractPlan();

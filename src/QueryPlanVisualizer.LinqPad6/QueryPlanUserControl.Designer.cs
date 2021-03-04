@@ -268,7 +268,7 @@
             this.sharePlanButton.Name = "sharePlanButton";
             this.sharePlanButton.Size = new System.Drawing.Size(209, 74);
             this.sharePlanButton.TabIndex = 7;
-            this.sharePlanButton.Text = "Share Plan on https://www.brentozar.com/pastetheplan/";
+            this.sharePlanButton.Text = "Visualize and Share Plan on https://www.brentozar.com/pastetheplan/";
             this.sharePlanButton.UseVisualStyleBackColor = true;
             this.sharePlanButton.Click += new System.EventHandler(this.SharePlanButtonClick);
             // 
