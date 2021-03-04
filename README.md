@@ -1,6 +1,6 @@
-# LINQPad.QueryPlanVisualizer 
+# LINQPad.QueryPlanVisualizer
 
-[![](https://img.shields.io/nuget/dt/LINQPadQueryPlanVisualizer.svg?label=LINQPadQueryPlanVisualizer&style=flat-square&logo=NuGet)](https://www.nuget.org/packages/LINQPadQueryPlanVisualizer/)
+[![NuGet Package](https://img.shields.io/nuget/dt/LINQPadQueryPlanVisualizer.svg?label=LINQPadQueryPlanVisualizer&style=flat-square&logo=NuGet)](https://www.nuget.org/packages/LINQPadQueryPlanVisualizer/)
 [![Apache License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&logo=Apache)](License.md)
 [![Ko-Fi](https://img.shields.io/static/v1?style=flat-square&message=Support%20the%20Project&color=success&style=plastic&logo=ko-fi&label=$$)](https://ko-fi.com/U6U81LHU8)
 
@@ -40,6 +40,10 @@ Query execution plan:
 ![Sql Server query plan](screenshots/Query%20Plan.PNG "Query execution plan inside LINQPad")
 
 ![PostgreSQL query plan](screenshots/Postgres%20Query%20Plan.PNG "Query execution plan inside LINQPad")
+
+## Viewing missing indexes
+
+For SQL Server, the query plan can also return information about missing indexes in `QueryPlan/MissingIndexes/MissingIndexGroup` element. If missing indexes are present in the plan the visualizaer will show a second tab with the missing index details and a button to create the index.
 
 Missing index:
 ![missing indexes](screenshots/Missing%20Index.PNG "Missing index")
