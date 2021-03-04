@@ -13,6 +13,7 @@ namespace ExecutionPlanVisualizer
     {
         public string Query { get; private set; }
 
+        public abstract string SharePlanWebsite { get; }
         public void Initialize(string query)
         {
             Query = query;
@@ -24,6 +25,8 @@ namespace ExecutionPlanVisualizer
 
     class PostgresPlanProcessor : PlanProcessor
     {
+        public override string SharePlanWebsite { get; } = "https://explain.dalibo.com/";
+
         public override string ConvertPlanToHtml(string rawPlan)
         {
             return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ", "&nbsp;").Replace("->", "&rarr;");
@@ -44,6 +47,7 @@ namespace ExecutionPlanVisualizer
     class SqlServerPlanProcessor : PlanProcessor
     {
         static bool shouldExtract = true;
+        public override string SharePlanWebsite { get; } = "https://www.brentozar.com/pastetheplan/";
 
         public List<string> ExtractFiles()
         {

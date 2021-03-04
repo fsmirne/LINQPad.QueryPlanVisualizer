@@ -15,7 +15,6 @@ namespace ExecutionPlanVisualizer
 
         public abstract string PlanExtension { get; }
         public abstract string PlanSaveDialogFilter { get; }
-        public abstract string SharePlanWebsite { get; }
 
         internal void Initialize(DbCommand command)
         {
@@ -56,7 +55,6 @@ namespace ExecutionPlanVisualizer
     {
         public override string PlanExtension { get; } = "txt";
         public override string PlanSaveDialogFilter { get; } = "Text Files|*.txt";
-        public override string SharePlanWebsite { get; } = "https://explain.dalibo.com/";
 
         protected override string ExtractPlanInternal(DbCommand command)
         {
@@ -75,7 +73,6 @@ namespace ExecutionPlanVisualizer
 
         public override string PlanExtension { get; } = "sqlplan";
         public override string PlanSaveDialogFilter { get; } = "Execution Plan Files|*.sqlplan";
-        public override string SharePlanWebsite { get; } = "https://www.brentozar.com/pastetheplan/";
 
         protected override string ExtractPlanInternal(DbCommand command)
         {

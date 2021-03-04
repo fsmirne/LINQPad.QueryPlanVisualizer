@@ -46,7 +46,7 @@ namespace ExecutionPlanVisualizer
                 openPlanButton.Text = $"Open with {fileDescription}";
             }
 
-            sharePlanButton.Text = $"Visualize and Share Plan on {DatabaseProvider.SharePlanWebsite}";
+            sharePlanButton.Text = $"Visualize and Share Plan on {PlanProcessor.SharePlanWebsite}";
         }
 
         private void SetButtonImages()
@@ -126,7 +126,7 @@ namespace ExecutionPlanVisualizer
 
         private async void SharePlanButtonClick(object sender, EventArgs e)
         {
-            if (MessageBox.Show($"Warning: Your execution plan, including its query and parameters, will be immediately sent to {DatabaseProvider.SharePlanWebsite} and stored in its database for sharing. Please review your query to make sure it doesn't containt sensitive data."
+            if (MessageBox.Show($"Warning: Your execution plan, including its query and parameters, will be immediately sent to {PlanProcessor.SharePlanWebsite} and stored in its database for sharing. Please review your query to make sure it doesn't containt sensitive data."
                                    + $"{Environment.NewLine}Do you want to continue?",
                                 "Continue", MessageBoxButtons.YesNo, MessageBoxIcon.Question) != DialogResult.Yes)
             {
