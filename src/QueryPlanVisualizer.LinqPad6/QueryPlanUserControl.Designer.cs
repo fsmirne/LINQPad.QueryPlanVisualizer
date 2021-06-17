@@ -37,7 +37,7 @@
             this.indexLabel = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.mainTabPage = new System.Windows.Forms.TabPage();
-            this.webBrowser = new System.Windows.Forms.WebBrowser();
+            this.webBrowser = new Microsoft.Web.WebView2.WinForms.WebView2();
             this.indexesTabPage = new System.Windows.Forms.TabPage();
             this.indexesDataGridView = new System.Windows.Forms.DataGridView();
             this.impactDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -152,7 +152,6 @@
             // webBrowser
             // 
             this.webBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.webBrowser.IsWebBrowserContextMenuEnabled = false;
             this.webBrowser.Location = new System.Drawing.Point(3, 2);
             this.webBrowser.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.webBrowser.MinimumSize = new System.Drawing.Size(27, 31);
@@ -418,7 +417,7 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage mainTabPage;
         private System.Windows.Forms.TabPage indexesTabPage;
-        private System.Windows.Forms.WebBrowser webBrowser;
+        private Microsoft.Web.WebView2.WinForms.WebView2 webBrowser;
         private System.Windows.Forms.SaveFileDialog savePlanFileDialog;
         private System.Windows.Forms.BindingSource missingIndexDetailsBindingSource;
         private System.Windows.Forms.DataGridView indexesDataGridView;

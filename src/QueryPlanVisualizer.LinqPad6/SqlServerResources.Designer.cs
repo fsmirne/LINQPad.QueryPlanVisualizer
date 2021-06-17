@@ -90,12 +90,21 @@ namespace ExecutionPlanVisualizer {
         ///.qp-statement-header-row &gt; div {
         ///    width: 100%;
         ///    position: absolute;
-        ///    overflow: hidden;
-        ///    text-over [rest of string was truncated]&quot;;.
+        ///    ov [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string qp_css {
             get {
                 return ResourceManager.GetString("qp-css", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap qp_icons {
+            get {
+                object obj = ResourceManager.GetObject("qp_icons", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
             }
         }
         
@@ -115,18 +124,17 @@ namespace ExecutionPlanVisualizer {
         ///    &lt;meta charset=&quot;UTF-8&quot;&gt;
         ///    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html;charset=utf-8&quot; /&gt;
         ///    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge&quot; /&gt;
-        ///    &lt;link type=&quot;text/css&quot; media=&quot;all&quot; rel=&quot;stylesheet&quot; href=&quot;{0}&quot; /&gt;
-        ///    &lt;script type=&quot;text/javascript&quot; src=&quot;{1}&quot;&gt;&lt;/script&gt;
+        ///    &lt;link type=&quot;text/css&quot; media=&quot;all&quot; rel=&quot;stylesheet&quot; href=&quot;qp.css&quot; /&gt;
+        ///    &lt;script type=&quot;text/javascript&quot; src=&quot;qp.js&quot;&gt;&lt;/script&gt;
         ///&lt;/head&gt;
         ///  &lt;body&gt;
         ///      &lt;div id=&quot;container&quot;&gt;
         ///          
         ///      &lt;/div&gt;
         ///      &lt;script&gt;
-        ///          QP.showPlan(document.getElementById(&quot;container&quot;), &apos;{2}&apos;);
+        ///          QP.showPlan(document.getElementById(&quot;container&quot;), &apos;{0}&apos;);
         ///      &lt;/script&gt;
-        ///  &lt;/body&gt;
-        ///&lt;/ht [rest of string was truncated]&quot;;.
+        ///  &lt;/body&gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string template {
             get {

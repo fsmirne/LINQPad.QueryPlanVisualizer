@@ -19,15 +19,15 @@ namespace ExecutionPlanVisualizer
             Query = query;
         }
 
-        public abstract string ConvertPlanToHtml(string rawPlan);
+        public abstract string GeneratePlanHtml(string rawPlan);
         public abstract Task<string> SharePlanAsync(string plan);
     }
 
     class PostgresPlanProcessor : PlanProcessor
     {
-        public override string SharePlanWebsite { get; } = "https://explain.dalibo.com/";
+        public override string SharePlanWebsite => "https://explain.dalibo.com/";
 
-        public override string ConvertPlanToHtml(string rawPlan)
+        public override string GeneratePlanHtml(string rawPlan)
         {
             return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ", "&nbsp;").Replace("->", "&rarr;");
         }
@@ -47,15 +47,12 @@ namespace ExecutionPlanVisualizer
     class SqlServerPlanProcessor : PlanProcessor
     {
         static bool shouldExtract = true;
-        public override string SharePlanWebsite { get; } = "https://www.brentozar.com/pastetheplan/";
+        public override string SharePlanWebsite => "https://www.brentozar.com/pastetheplan/";
+        
+        private readonly string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LINQPadQueryVisualizer", "SqlServer");
 
-        public List<string> ExtractFiles()
+        private void ExtractFiles()
         {
-            var folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LINQPadQueryVisualizer", "SqlServer");
-
-            var qpJavascript = Path.Combine(folder, "qp.js");
-            var qpStyleSheet = Path.Combine(folder, "qp.css");
-
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
@@ -64,27 +61,28 @@ namespace ExecutionPlanVisualizer
             if (shouldExtract)
             {
                 var icons = Path.Combine(folder, "qp_icons.png");
-
-                using (var iconsStream = File.OpenWrite(icons))
-                {
-                    Assembly.GetExecutingAssembly().GetManifestResourceStream("ExecutionPlanVisualizer.Resources.qp_icons.png").CopyTo(iconsStream);
-                }
+                var qpJavascript = Path.Combine(folder, "qp.js");
+                var qpStyleSheet = Path.Combine(folder, "qp.css");
 
                 File.WriteAllText(qpJavascript, SqlServerResources.qp_min_js);
                 File.WriteAllText(qpStyleSheet, SqlServerResources.qp_css);
+                SqlServerResources.qp_icons.Save(icons);
             }
 
             shouldExtract = false;
-
-            return new List<string> { qpStyleSheet, qpJavascript };
         }
 
-        public override string ConvertPlanToHtml(string rawPlan)
+        public override string GeneratePlanHtml(string rawPlan)
         {
-            var files = ExtractFiles();
-            files.Add(rawPlan);
+            ExtractFiles();
 
-            return string.Format(SqlServerResources.template, files.ToArray());
+            var html = string.Format(SqlServerResources.template, rawPlan);
+
+            var htmlFilePath = Path.Combine(folder, "plan.html");
+
+            File.WriteAllText(htmlFilePath, html);
+
+            return htmlFilePath;
         }
 
         public override async Task<string> SharePlanAsync(string plan)

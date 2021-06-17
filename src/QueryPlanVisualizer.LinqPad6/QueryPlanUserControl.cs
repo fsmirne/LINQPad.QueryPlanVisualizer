@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using Microsoft.Web.WebView2.Core;
 
 namespace ExecutionPlanVisualizer
 {
@@ -16,10 +17,6 @@ namespace ExecutionPlanVisualizer
         public QueryPlanUserControl()
         {
             InitializeComponent();
-
-#if DEBUG
-            webBrowser.IsWebBrowserContextMenuEnabled = true;
-#endif
         }
 
         private void QueryPlanUserControlLoad(object sender, EventArgs e)
@@ -60,12 +57,18 @@ namespace ExecutionPlanVisualizer
         internal PlanProcessor PlanProcessor { get; set; }
         internal DatabaseProvider DatabaseProvider { get; set; }
 
-        public void DisplayPlan(string rawPlan)
+        public async void DisplayPlan(string rawPlan)
         {
             plan = rawPlan;
 
             indexes = DatabaseProvider.GetMissingIndexes(rawPlan);
-            webBrowser.DocumentText = PlanProcessor.ConvertPlanToHtml(rawPlan);
+            var planHtmlPath = PlanProcessor.GeneratePlanHtml(rawPlan);
+            
+            var env = await CoreWebView2Environment.CreateAsync();
+            await webBrowser.EnsureCoreWebView2Async(env);
+
+            webBrowser.CoreWebView2.SetVirtualHostNameToFolderMapping("query.plan", Path.GetDirectoryName(planHtmlPath), CoreWebView2HostResourceAccessKind.Allow);
+            webBrowser.Source = new Uri($"https://query.plan/{Path.GetFileName(planHtmlPath)}");
 
             if (indexes.Count > 0 && tabControl.TabPages.Count == 1)
             {
