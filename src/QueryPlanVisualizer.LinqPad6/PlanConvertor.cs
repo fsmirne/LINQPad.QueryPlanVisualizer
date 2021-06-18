@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ExecutionPlanVisualizer.Helpers;
+using System;
 using System.IO;
 using System.Net.Http;
-using System.Reflection;
+using System.Text.Encodings.Web;
 using System.Text.Json;
 using System.Threading.Tasks;
-using ExecutionPlanVisualizer.Helpers;
 
 namespace ExecutionPlanVisualizer
 {
@@ -14,22 +13,64 @@ namespace ExecutionPlanVisualizer
         public string Query { get; private set; }
 
         public abstract string SharePlanWebsite { get; }
+        protected abstract string PlanFolder { get; }
+
+        protected string PlanFileFolderFullPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                                                "LINQPadQueryVisualizer", PlanFolder);
+
+        protected string PlanFilePath => Path.Combine(PlanFileFolderFullPath, "plan.html");
+
         public void Initialize(string query)
         {
             Query = query;
         }
 
+        protected abstract void ExtractFiles();
         public abstract string GeneratePlanHtml(string rawPlan);
         public abstract Task<string> SharePlanAsync(string plan);
     }
 
     class PostgresPlanProcessor : PlanProcessor
     {
+        static bool shouldExtract = true;
         public override string SharePlanWebsite => "https://explain.dalibo.com/";
+        protected override string PlanFolder => "Postgres";
+
+        protected override void ExtractFiles()
+        {
+            Directory.CreateDirectory(Path.Combine(PlanFileFolderFullPath, "js"));
+            Directory.CreateDirectory(Path.Combine(PlanFileFolderFullPath, "css"));
+
+            if (shouldExtract)
+            {
+                var allStylesheet = Path.Combine(PlanFileFolderFullPath, "css", "all.css");
+                var appStylesheet = Path.Combine(PlanFileFolderFullPath, "css", "app.css");
+                var bootstrapStylesheet = Path.Combine(PlanFileFolderFullPath, "css", "bootstrap.min.css");
+
+                var chunkJavascript = Path.Combine(PlanFileFolderFullPath, "js", "chunk-vendors.js");
+
+                File.WriteAllText(allStylesheet, PostgresResources.all);
+                File.WriteAllText(appStylesheet, PostgresResources.app_css);
+                File.WriteAllText(bootstrapStylesheet, PostgresResources.bootstrap_min);
+                File.WriteAllText(chunkJavascript, PostgresResources.chunk_vendors);
+
+                File.WriteAllText(PlanFilePath, PostgresResources.index);
+            }
+
+            shouldExtract = false;
+        }
 
         public override string GeneratePlanHtml(string rawPlan)
         {
-            return rawPlan.Replace(Environment.NewLine, "<br/>").Replace(" ", "&nbsp;").Replace("->", "&rarr;");
+            ExtractFiles();
+
+            var appJavascript = Path.Combine(PlanFileFolderFullPath, "js", "app.js");
+            var appJs = PostgresResources.app_js.Replace("{plan}", JavaScriptEncoder.UnsafeRelaxedJsonEscaping.Encode(rawPlan))
+                                                .Replace("{query}", JavaScriptEncoder.UnsafeRelaxedJsonEscaping.Encode(Query));
+
+            File.WriteAllText(appJavascript, appJs);
+
+            return PlanFilePath;
         }
 
         public override async Task<string> SharePlanAsync(string plan)
@@ -48,21 +89,17 @@ namespace ExecutionPlanVisualizer
     {
         static bool shouldExtract = true;
         public override string SharePlanWebsite => "https://www.brentozar.com/pastetheplan/";
-        
-        private readonly string folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LINQPadQueryVisualizer", "SqlServer");
+        protected override string PlanFolder => "SqlServer";
 
-        private void ExtractFiles()
+        protected override void ExtractFiles()
         {
-            if (!Directory.Exists(folder))
-            {
-                Directory.CreateDirectory(folder);
-            }
+            Directory.CreateDirectory(PlanFileFolderFullPath);
 
             if (shouldExtract)
             {
-                var icons = Path.Combine(folder, "qp_icons.png");
-                var qpJavascript = Path.Combine(folder, "qp.js");
-                var qpStyleSheet = Path.Combine(folder, "qp.css");
+                var icons = Path.Combine(PlanFileFolderFullPath, "qp_icons.png");
+                var qpJavascript = Path.Combine(PlanFileFolderFullPath, "qp.js");
+                var qpStyleSheet = Path.Combine(PlanFileFolderFullPath, "qp.css");
 
                 File.WriteAllText(qpJavascript, SqlServerResources.qp_min_js);
                 File.WriteAllText(qpStyleSheet, SqlServerResources.qp_css);
@@ -78,11 +115,9 @@ namespace ExecutionPlanVisualizer
 
             var html = string.Format(SqlServerResources.template, rawPlan);
 
-            var htmlFilePath = Path.Combine(folder, "plan.html");
+            File.WriteAllText(PlanFilePath, html);
 
-            File.WriteAllText(htmlFilePath, html);
-
-            return htmlFilePath;
+            return PlanFilePath;
         }
 
         public override async Task<string> SharePlanAsync(string plan)

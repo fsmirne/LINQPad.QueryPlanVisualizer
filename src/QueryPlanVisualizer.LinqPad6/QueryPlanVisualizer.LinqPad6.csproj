@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFrameworks>netcoreapp3.1</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>ExecutionPlanVisualizer</RootNamespace>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
@@ -65,6 +65,11 @@ Added Support PostgreSQL
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="PostgresResources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>PostgresResources.resx</DependentUpon>
+    </Compile>
     <Compile Update="SqlServerResources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -73,6 +78,10 @@ Added Support PostgreSQL
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="PostgresResources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>PostgresResources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="SqlServerResources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>SqlServerResources.Designer.cs</LastGenOutput>
