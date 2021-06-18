@@ -54,6 +54,7 @@ namespace ExecutionPlanVisualizer
             githubButton.Image = (Image)resources.GetObject("githubButton.Image");
         }
 
+        internal string WebViewFolder { get; set; }
         internal PlanProcessor PlanProcessor { get; set; }
         internal DatabaseProvider DatabaseProvider { get; set; }
 
@@ -64,7 +65,7 @@ namespace ExecutionPlanVisualizer
             indexes = DatabaseProvider.GetMissingIndexes(rawPlan);
             var planHtmlPath = PlanProcessor.GeneratePlanHtml(rawPlan);
             
-            var env = await CoreWebView2Environment.CreateAsync();
+            var env = await CoreWebView2Environment.CreateAsync(WebViewFolder);
             await webBrowser.EnsureCoreWebView2Async(env);
 
             webBrowser.CoreWebView2.SetVirtualHostNameToFolderMapping("query.plan", Path.GetDirectoryName(planHtmlPath), CoreWebView2HostResourceAccessKind.Allow);

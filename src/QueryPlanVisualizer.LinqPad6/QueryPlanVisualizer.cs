@@ -1,7 +1,9 @@
 ﻿using LINQPad;
 using System;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Forms;
+using Microsoft.Web.WebView2.Core;
 
 namespace ExecutionPlanVisualizer
 {
@@ -26,7 +28,7 @@ namespace ExecutionPlanVisualizer
         private static void DumpPlanInternal<T>(IQueryable<T> queryable, bool dumpData)
         {
             var ormHelper = OrmHelper.Create(queryable, Util.CurrentDataContext);
-            
+
             if (ormHelper == null)
             {
                 ShowError("The selected database or database driver isn't supported");
@@ -52,8 +54,39 @@ namespace ExecutionPlanVisualizer
                 return;
             }
 
+            string webViewFolder = null;
+
+            try
+            {
+                CoreWebView2Environment.GetAvailableBrowserVersionString();
+            }
+            catch (WebView2RuntimeNotFoundException)
+            {
+                var nestedType = typeof(Util).GetNestedType("BrowserEngine");
+
+                var methodInfo = nestedType?.GetMethod("GetWebView2ExecutableFolder", BindingFlags.Static | BindingFlags.Public);
+                webViewFolder = methodInfo?.Invoke(null, null)?.ToString();
+
+                if (nestedType == null || methodInfo == null || string.IsNullOrEmpty(webViewFolder))
+                {
+                    ShowError("Query Plan Visualizer requires Webview2 Runtime installation but it was not found.");
+                    return;
+                }
+
+                try
+                {
+                    var browserVersionString = CoreWebView2Environment.GetAvailableBrowserVersionString(webViewFolder);
+                }
+                catch (WebView2RuntimeNotFoundException)
+                {
+                    ShowError("Query Plan Visualizer requires Webview2 Runtime installation but it was not found.");
+                    return;
+                }
+            }
+
             var control = new QueryPlanUserControl
             {
+                WebViewFolder = webViewFolder,
                 DatabaseProvider = ormHelper.DatabaseProvider,
                 PlanProcessor = ormHelper.PlanProcessor
             };
