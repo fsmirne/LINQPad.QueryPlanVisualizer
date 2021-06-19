@@ -66,7 +66,7 @@ namespace ExecutionPlanVisualizer
 
             var appJavascript = Path.Combine(PlanFileFolderFullPath, "js", "app.js");
             var appJs = PostgresResources.app_js.Replace("{plan}", JavaScriptEncoder.UnsafeRelaxedJsonEscaping.Encode(rawPlan))
-                                                .Replace("{query}", JavaScriptEncoder.UnsafeRelaxedJsonEscaping.Encode(Query));
+                                                .Replace("{query}", JavaScriptEncoder.UnsafeRelaxedJsonEscaping.Encode(Query).Replace("'", "\\'"));
 
             File.WriteAllText(appJavascript, appJs);
 
