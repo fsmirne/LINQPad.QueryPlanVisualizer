@@ -82,10 +82,7 @@ namespace ExecutionPlanVisualizer {
         ///.fa-lg {
         ///  font-size: 1.33333em;
         ///  line-height: 0.75em;
-        ///  vertical-align: -.0667em; }
-        ///
-        ///.fa-xs {
-        ///  [rest of string was truncated]&quot;;.
+        ///  vertical-align: -. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string all {
             get {
@@ -117,7 +114,7 @@ namespace ExecutionPlanVisualizer {
         /// * Copyright 2011-2020 The Bootstrap Authors
         /// * Copyright 2011-2020 Twitter, Inc.
         /// * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
-        /// */:root{--blue:#007bff;--indigo:#6610f2;--purple:#6f42c1;--pink:#e83e8c;--red:#dc3545;--orange:#fd7e14;--yellow:#ffc107;--green:#28a745;--teal:#20c997;--cyan:#17a2b8;--white:#fff;--gray:#6c757d;--gray-dark:#343a40;--primary:#007bff;--secondary:#6c757d;--success:#28a745;--info:#17a2b8;--warning:#ffc [rest of string was truncated]&quot;;.
+        /// */:root{--blue:#007bff;--indigo:#6610f2;--purple:#6f42c1;--pink:#e83e8c;--red:#dc3545;--orange:#fd7e14;--yellow:#ffc107;--green:#28a745;--teal:#20c997;--cyan:#17a2b8;--white:#fff;--gray:#6c757d;--gray-dark:#343a40;--primary:#007bff;--secondary:#6c757d;--success:#28a745;--info:#17a2b8;--warning [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string bootstrap_min {
             get {
@@ -146,8 +143,7 @@ namespace ExecutionPlanVisualizer {
         ///    &lt;link href=&quot;css/all.css&quot; rel=&quot;stylesheet&quot; /&gt;
         ///    &lt;link href=&quot;css/app.css&quot; rel=&quot;stylesheet&quot; /&gt;
         ///  &lt;link href=&quot;js/app.js&quot; rel=&quot;preload&quot; as=&quot;script&quot;&gt;&lt;link href=&quot;js/chunk-vendors.js&quot; rel=&quot;preload&quot; as=&quot;script&quot;&gt;&lt;/head&gt;
-        ///  &lt;body&gt;
-        ///    [rest of string was truncated]&quot;;.
+        ///  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string index {
             get {
