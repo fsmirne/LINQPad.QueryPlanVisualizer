@@ -21,6 +21,8 @@
 
 **If you use LINQPad 6, you must use version 2.0 of this library. For LINQPad 5, you must use version 1.0**
 
+Version 2.1 and newer uses **Microsoft Edge WebView2** to display the query plan. This requires either **WebView2 Runtime** to be installed or a recent version of Edge Canary. To download WebView2 Runtime visit [Microsoft Edge WebView2 Download Page](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
+
 The library can show query plans for `LINQ to SQL` driver and `Entity Framework Core 5`.
 
 ### Install from NuGet
