@@ -17,13 +17,15 @@
 * Open plan in SQL Server Management Studio or another default app
 * Save plan to disk
 
+Supported databases: Sql Server and PostgreSQL.
+
+Supported ORMs: `Entity Framework Core 5` and `LINQ to SQL`
+
 ## Getting Started
 
-**If you use LINQPad 6, you must use version 2.0 of this library. For LINQPad 5, you must use version 1.0**
+**If you use LINQPad 6, you must use version 2.X of this library. For LINQPad 5, you must use version 1.X**
 
-Version 2.1 and newer uses **Microsoft Edge WebView2** to display the query plan. This requires either **WebView2 Runtime** to be installed or a recent version of Edge Canary. To download WebView2 Runtime visit [Microsoft Edge WebView2 Download Page](https://developer.microsoft.com/en-us/microsoft-edge/webview2/)
-
-The library can show query plans for `LINQ to SQL` driver and `Entity Framework Core 5`.
+Version 2.1 and newer uses **Microsoft Edge WebView2** to display the query plan. This requires either **WebView2 Runtime** to be installed or a recent version of Edge Canary. To download WebView2 Runtime visit [Microsoft Edge WebView2 Download Page](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
 
 ### Install from NuGet
 
@@ -42,7 +44,7 @@ Query execution plan for Sql Server:
 
 ![Sql Server query plan](screenshots/Query%20Plan.PNG "Query execution plan inside LINQPad")
 
-Query execution plan for Postgres:
+Query execution plan for PostgreSQL:
 
 ![PostgreSQL query plan](screenshots/Postgres%20Query%20Plan.PNG "Query execution plan inside LINQPad")
 
