@@ -46,7 +46,8 @@ Query execution plan for Postgres:
 
 ## Viewing missing indexes
 
-For SQL Server, the query plan can also return information about missing indexes in `QueryPlan/MissingIndexes/MissingIndexGroup` element. If missing indexes are present in the plan the visualizaer will show a second tab with the missing index details and a button to create the index.
+For SQL Server, the query plan can also return information about missing indexes in `QueryPlan/MissingIndexes/MissingIndexGroup` element. If missing indexes are present in the plan the visualizer will show a second tab with the missing index details and a button to create the index.
 
 Missing index:
+
 ![missing indexes](screenshots/Missing%20Index.PNG "Missing index")
