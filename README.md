@@ -1,7 +1,7 @@
 # LINQPad.QueryPlanVisualizer
 
 [![NuGet Package](https://img.shields.io/nuget/dt/LINQPadQueryPlanVisualizer.svg?label=LINQPadQueryPlanVisualizer&style=flat-square&logo=NuGet)](https://www.nuget.org/packages/LINQPadQueryPlanVisualizer/)
-![GitHub all releases](https://img.shields.io/github/downloads/Giorgi/LINQPad.QueryPlanVisualizer/total?logo=github&style=flat-square)
+[![GitHub all releases](https://img.shields.io/github/downloads/Giorgi/LINQPad.QueryPlanVisualizer/total?logo=github&style=flat-square)](https://github.com/Giorgi/LINQPad.QueryPlanVisualizer/releases)
 [![Apache License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square&logo=Apache)](License.md)
 [![Ko-Fi](https://img.shields.io/static/v1?style=flat-square&message=Support%20the%20Project&color=success&style=plastic&logo=ko-fi&label=$$)](https://ko-fi.com/U6U81LHU8)
 
