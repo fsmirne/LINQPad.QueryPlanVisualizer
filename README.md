@@ -62,3 +62,11 @@ For SQL Server, the query plan can also return information about missing indexes
 Missing index:
 
 ![missing indexes](screenshots/Missing%20Index.PNG "Missing index")
+
+## What Others Are Saying
+
+[![Scott Hanselman](screenshots/Scott%20Hanselman.png "Scott Hanselman")](https://twitter.com/shanselman/status/1555036430392389632)
+
+[![Julie Lerman](screenshots/Julie%20Lerman.png "Julie Lerman")](https://twitter.com/julielerman/status/1415367790844907527)
+
+[![Jeremy Likness](screenshots/Jeremy%20Likness.png "Jeremy Likness")](https://twitter.com/jeremylikness/status/1415368187760185346)
