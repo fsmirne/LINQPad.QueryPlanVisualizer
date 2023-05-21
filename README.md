@@ -30,7 +30,7 @@ Supported ORMs: `Entity Framework Core 5` and `LINQ to SQL`
 
 ## Getting Started
 
-**If you use LINQPad 6, you must use version 2.X of this library. For LINQPad 5, you must use version 1.X**
+**If you use LINQPad 6 or newer, you must use version 2.X of this library. For LINQPad 5, you must use version 1.X**
 
 Version 2.1 and newer uses **Microsoft Edge WebView2** to display the query plan. This requires either **WebView2 Runtime** to be installed or a recent version of Edge Canary. To download WebView2 Runtime visit [Microsoft Edge WebView2 Download Page](https://developer.microsoft.com/en-us/microsoft-edge/webview2/).
 
