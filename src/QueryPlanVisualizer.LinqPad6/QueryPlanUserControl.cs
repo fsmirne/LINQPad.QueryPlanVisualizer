@@ -11,12 +11,29 @@ namespace ExecutionPlanVisualizer
 {
     public partial class QueryPlanUserControl : UserControl
     {
+        TemporaryFiles  temporaryFiles = new TemporaryFiles();
+
         private string plan;
         private List<MissingIndexDetails> indexes;
 
         public QueryPlanUserControl()
         {
             InitializeComponent();
+        }
+
+        /// <summary> 
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            temporaryFiles.Dispose();
+
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
         private void QueryPlanUserControlLoad(object sender, EventArgs e)
@@ -64,6 +81,7 @@ namespace ExecutionPlanVisualizer
 
             indexes = DatabaseProvider.GetMissingIndexes(rawPlan);
             var planHtmlPath = PlanProcessor.GeneratePlanHtml(rawPlan);
+            temporaryFiles.AddFile(planHtmlPath);
 
             var userDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LINQPadQueryVisualizer", "WebView2");
 
@@ -89,6 +107,7 @@ namespace ExecutionPlanVisualizer
             indexesDataGridView.ResetBindings();
         }
 
+
         private void StartProcess(string fileName)
         {
             Process.Start(new ProcessStartInfo(fileName)
@@ -99,12 +118,20 @@ namespace ExecutionPlanVisualizer
 
         private void OpenPlanButtonClick(object sender, EventArgs e)
         {
-            var tempFile = Path.ChangeExtension(Path.GetTempFileName(), DatabaseProvider.PlanExtension);
-            File.WriteAllText(tempFile, plan);
+            var filename = planLocationLinkLabel.Text;
+            if (!File.Exists(filename))
+            {
+                var tempFile = Path.GetTempFileName();
+                temporaryFiles.AddFile(tempFile);
+
+                filename = Path.ChangeExtension(tempFile, DatabaseProvider.PlanExtension);
+                File.WriteAllText(filename, plan);
+                temporaryFiles.AddFile(filename);
+            }
 
             try
             {
-                StartProcess(tempFile);
+                StartProcess(filename);
             }
             catch (Exception exception)
             {

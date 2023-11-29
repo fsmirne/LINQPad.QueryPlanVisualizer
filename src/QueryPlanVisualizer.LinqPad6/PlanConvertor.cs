@@ -18,7 +18,9 @@ namespace ExecutionPlanVisualizer
         protected string PlanFileFolderFullPath => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                                                 "LINQPadQueryVisualizer", PlanFolder);
 
-        protected string PlanFilePath => Path.Combine(PlanFileFolderFullPath, "plan.html");
+        private string planFileName = $"plan {Guid.NewGuid()}.html";
+
+        protected string PlanFilePath => Path.Combine(PlanFileFolderFullPath, planFileName);
 
         public void Initialize(string query)
         {
