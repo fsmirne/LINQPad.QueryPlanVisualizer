@@ -64,8 +64,10 @@ namespace ExecutionPlanVisualizer
 
             indexes = DatabaseProvider.GetMissingIndexes(rawPlan);
             var planHtmlPath = PlanProcessor.GeneratePlanHtml(rawPlan);
-            
-            var env = await CoreWebView2Environment.CreateAsync(WebViewFolder);
+
+            var userDataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "LINQPadQueryVisualizer", "WebView2");
+
+            var env = await CoreWebView2Environment.CreateAsync(WebViewFolder, userDataFolder);
             await webBrowser.EnsureCoreWebView2Async(env);
 
             webBrowser.CoreWebView2.SetVirtualHostNameToFolderMapping("query.plan", Path.GetDirectoryName(planHtmlPath), CoreWebView2HostResourceAccessKind.Allow);
