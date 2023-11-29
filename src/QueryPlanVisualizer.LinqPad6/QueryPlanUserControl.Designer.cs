@@ -78,7 +78,7 @@
             // 
             // savePlanButton
             // 
-            this.savePlanButton.Location = new System.Drawing.Point(400, 14);
+            this.savePlanButton.Location = new System.Drawing.Point(258, 14);
             this.savePlanButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.savePlanButton.Name = "savePlanButton";
             this.savePlanButton.Size = new System.Drawing.Size(94, 30);
@@ -90,7 +90,7 @@
             // planSavedLabel
             // 
             this.planSavedLabel.AutoSize = true;
-            this.planSavedLabel.Location = new System.Drawing.Point(506, 19);
+            this.planSavedLabel.Location = new System.Drawing.Point(351, 19);
             this.planSavedLabel.Name = "planSavedLabel";
             this.planSavedLabel.Size = new System.Drawing.Size(100, 20);
             this.planSavedLabel.TabIndex = 2;
@@ -100,11 +100,11 @@
             // planLocationLinkLabel
             // 
             this.planLocationLinkLabel.ActiveLinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
-            this.planLocationLinkLabel.AutoSize = true;
+            this.planLocationLinkLabel.AutoSize = false;
             this.planLocationLinkLabel.LinkColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(102)))), ((int)(((byte)(204)))));
-            this.planLocationLinkLabel.Location = new System.Drawing.Point(506, 43);
+            this.planLocationLinkLabel.Location = new System.Drawing.Point(351, 43);
             this.planLocationLinkLabel.Name = "planLocationLinkLabel";
-            this.planLocationLinkLabel.Size = new System.Drawing.Size(165, 20);
+            this.planLocationLinkLabel.Size = new System.Drawing.Size(364, 40);
             this.planLocationLinkLabel.TabIndex = 3;
             this.planLocationLinkLabel.TabStop = true;
             this.planLocationLinkLabel.Text = "plan location goes here";
@@ -404,7 +404,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.missingIndexDetailsBindingSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
