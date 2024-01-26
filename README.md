@@ -1,6 +1,6 @@
 # LINQPad.QueryPlanVisualizer
 
-Visualize Entity Framework and Linq to SQL queries in LINQPad
+Visualize Entity Framework and Linq to SQL queries in LINQPad. For Visual Studio extension see [EFCore.Visualizer](https://github.com/Giorgi/EFCore.Visualizer)
 
 [![NuGet Package](https://img.shields.io/nuget/dt/LINQPadQueryPlanVisualizer.svg?label=LINQPadQueryPlanVisualizer&style=flat-square&logo=NuGet)](https://www.nuget.org/packages/LINQPadQueryPlanVisualizer/)
 [![GitHub all releases](https://img.shields.io/github/downloads/Giorgi/LINQPad.QueryPlanVisualizer/total?logo=github&style=flat-square)](https://github.com/Giorgi/LINQPad.QueryPlanVisualizer/releases)
