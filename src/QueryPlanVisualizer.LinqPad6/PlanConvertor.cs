@@ -42,24 +42,60 @@ namespace ExecutionPlanVisualizer
         {
             Directory.CreateDirectory(Path.Combine(PlanFileFolderFullPath, "js"));
             Directory.CreateDirectory(Path.Combine(PlanFileFolderFullPath, "css"));
+			Directory.CreateDirectory(Path.Combine(PlanFileFolderFullPath, "webfonts"));
 
-            if (shouldExtract)
+			if (shouldExtract)
             {
                 var allStylesheet = Path.Combine(PlanFileFolderFullPath, "css", "all.css");
                 var appStylesheet = Path.Combine(PlanFileFolderFullPath, "css", "app.css");
                 var bootstrapStylesheet = Path.Combine(PlanFileFolderFullPath, "css", "bootstrap.min.css");
-
                 var chunkJavascript = Path.Combine(PlanFileFolderFullPath, "js", "chunk-vendors.js");
 
-                File.WriteAllText(allStylesheet, PostgresResources.all);
+				var fa_brands_400_eot = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-brands-400.eot");
+				var fa_brands_400_svg = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-brands-400.svg");
+				var fa_brands_400_ttf = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-brands-400.ttf");
+				var fa_brands_400_woff = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-brands-400.woff");
+				var fa_brands_400_woff2 = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-brands-400.woff2");
+
+				var fa_regular_400_eot = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-regular-400.eot");
+				var fa_regular_400_svg = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-regular-400.svg");
+				var fa_regular_400_ttf = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-regular-400.ttf");
+				var fa_regular_400_woff = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-regular-400.woff");
+				var fa_regular_400_woff2 = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-regular-400.woff2");
+
+				var fa_solid_900_eot = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-solid-900.eot");
+				var fa_solid_900_svg = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-solid-900.svg");
+				var fa_solid_900_ttf = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-solid-900.ttf");
+				var fa_solid_900_woff = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-solid-900.woff");
+				var fa_solid_900_woff2 = Path.Combine(PlanFileFolderFullPath, "webfonts", "fa-solid-900.woff2");
+
+
+				File.WriteAllText(allStylesheet, PostgresResources.all);
                 File.WriteAllText(appStylesheet, PostgresResources.app_css);
                 File.WriteAllText(bootstrapStylesheet, PostgresResources.bootstrap_min);
                 File.WriteAllText(chunkJavascript, PostgresResources.chunk_vendors);
 
-                File.WriteAllText(PlanFilePath, PostgresResources.index);
-            }
+				File.WriteAllBytes(fa_brands_400_eot, PostgresResources.fa_brands_400);
+				File.WriteAllBytes(fa_brands_400_svg, PostgresResources.fa_brands_4001);
+				File.WriteAllBytes(fa_brands_400_ttf, PostgresResources.fa_brands_4002);
+				File.WriteAllBytes(fa_brands_400_woff, PostgresResources.fa_brands_4003);
+				File.WriteAllBytes(fa_brands_400_woff2, PostgresResources.fa_brands_4004);
+				File.WriteAllBytes(fa_regular_400_eot, PostgresResources.fa_regular_400);
+				File.WriteAllBytes(fa_regular_400_svg, PostgresResources.fa_regular_4001);
+				File.WriteAllBytes(fa_regular_400_ttf, PostgresResources.fa_regular_4002);
+				File.WriteAllBytes(fa_regular_400_woff, PostgresResources.fa_regular_4003);
+				File.WriteAllBytes(fa_regular_400_woff2, PostgresResources.fa_regular_4004);
+				File.WriteAllBytes(fa_solid_900_eot, PostgresResources.fa_solid_900);
+				File.WriteAllBytes(fa_solid_900_svg, PostgresResources.fa_solid_9001);
+				File.WriteAllBytes(fa_solid_900_ttf, PostgresResources.fa_solid_9002);
+				File.WriteAllBytes(fa_solid_900_woff, PostgresResources.fa_solid_9003);
+				File.WriteAllBytes(fa_solid_900_woff2, PostgresResources.fa_solid_9004);
 
-            shouldExtract = false;
+			}
+
+			File.WriteAllText(PlanFilePath, PostgresResources.index);
+
+			shouldExtract = false;
         }
 
         public override string GeneratePlanHtml(string rawPlan)

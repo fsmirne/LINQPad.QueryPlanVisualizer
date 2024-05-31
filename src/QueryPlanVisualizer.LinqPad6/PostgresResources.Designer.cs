@@ -19,7 +19,7 @@ namespace ExecutionPlanVisualizer {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class PostgresResources {
@@ -128,6 +128,156 @@ namespace ExecutionPlanVisualizer {
         internal static string chunk_vendors {
             get {
                 return ResourceManager.GetString("chunk_vendors", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_brands_400 {
+            get {
+                object obj = ResourceManager.GetObject("fa_brands_400", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_brands_4001 {
+            get {
+                object obj = ResourceManager.GetObject("fa_brands_4001", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_brands_4002 {
+            get {
+                object obj = ResourceManager.GetObject("fa_brands_4002", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_brands_4003 {
+            get {
+                object obj = ResourceManager.GetObject("fa_brands_4003", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_brands_4004 {
+            get {
+                object obj = ResourceManager.GetObject("fa_brands_4004", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_regular_400 {
+            get {
+                object obj = ResourceManager.GetObject("fa_regular_400", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_regular_4001 {
+            get {
+                object obj = ResourceManager.GetObject("fa_regular_4001", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_regular_4002 {
+            get {
+                object obj = ResourceManager.GetObject("fa_regular_4002", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_regular_4003 {
+            get {
+                object obj = ResourceManager.GetObject("fa_regular_4003", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_regular_4004 {
+            get {
+                object obj = ResourceManager.GetObject("fa_regular_4004", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_solid_900 {
+            get {
+                object obj = ResourceManager.GetObject("fa_solid_900", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_solid_9001 {
+            get {
+                object obj = ResourceManager.GetObject("fa_solid_9001", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_solid_9002 {
+            get {
+                object obj = ResourceManager.GetObject("fa_solid_9002", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_solid_9003 {
+            get {
+                object obj = ResourceManager.GetObject("fa_solid_9003", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Byte[].
+        /// </summary>
+        internal static byte[] fa_solid_9004 {
+            get {
+                object obj = ResourceManager.GetObject("fa_solid_9004", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

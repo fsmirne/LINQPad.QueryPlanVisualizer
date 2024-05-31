@@ -133,6 +133,51 @@
   <data name="chunk_vendors" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Postgres\chunk-vendors.js;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="fa_brands_400" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-brands-400.eot;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_brands_4001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-brands-400.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_brands_4002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-brands-400.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_brands_4003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-brands-400.woff;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_brands_4004" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-brands-400.woff2;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_regular_400" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-regular-400.eot;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_regular_4001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-regular-400.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_regular_4002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-regular-400.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_regular_4003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-regular-400.woff;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_regular_4004" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-regular-400.woff2;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_solid_900" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-solid-900.eot;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_solid_9001" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-solid-900.svg;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_solid_9002" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-solid-900.ttf;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_solid_9003" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-solid-900.woff;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="fa_solid_9004" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\Postgres\fa-solid-900.woff2;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="index" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\Postgres\index.html;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
